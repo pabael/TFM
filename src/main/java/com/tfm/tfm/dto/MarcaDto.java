@@ -1,27 +1,18 @@
-package com.tfm.tfm.entity;
+package com.tfm.tfm.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "Marca")
-public class MarcaEntity implements Serializable {
+public class MarcaDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
+
+	@NotNull
 	private String nombre;
+	
+	@NotNull
 	private String resumen;
 	private String materiales;
 	private boolean crueltyFree;
@@ -29,17 +20,16 @@ public class MarcaEntity implements Serializable {
 	private String compromiso;
 	private String procesoProduccion;
 	
-	@ManyToMany
-	private List<CategoriaEntity> categorias = new ArrayList<>();
+	@NotNull
+	private List<String> categorias;
 	
-	@ManyToMany
-	private List<SubcategoriaEntity> subcategorias = new ArrayList<>();
+	private List<String> subcategorias;
 
-	public MarcaEntity() {}
-
-	public MarcaEntity(String nombre, String resumen, String materiales, boolean crueltyFree, boolean vegano,
-			String compromiso, String procesoProduccion, List<CategoriaEntity> categorias,
-			List<SubcategoriaEntity> subcategorias) {
+	public MarcaDto() {}
+	
+	public MarcaDto(@NotNull String nombre, @NotNull String resumen, String materiales, boolean crueltyFree,
+			boolean vegano, String compromiso, String procesoProduccion, @NotNull List<String> categorias,
+			List<String> subcategorias) {
 		this.nombre = nombre;
 		this.resumen = resumen;
 		this.materiales = materiales;
@@ -49,14 +39,6 @@ public class MarcaEntity implements Serializable {
 		this.procesoProduccion = procesoProduccion;
 		this.categorias = categorias;
 		this.subcategorias = subcategorias;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getNombre() {
@@ -115,19 +97,19 @@ public class MarcaEntity implements Serializable {
 		this.procesoProduccion = procesoProduccion;
 	}
 
-	public List<CategoriaEntity> getCategorias() {
+	public List<String> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(List<CategoriaEntity> categorias) {
+	public void setCategorias(List<String> categorias) {
 		this.categorias = categorias;
 	}
 
-	public List<SubcategoriaEntity> getSubcategorias() {
+	public List<String> getSubcategorias() {
 		return subcategorias;
 	}
 
-	public void setSubcategorias(List<SubcategoriaEntity> subcategorias) {
+	public void setSubcategorias(List<String> subcategorias) {
 		this.subcategorias = subcategorias;
-	}	
+	}
 }

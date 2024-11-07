@@ -1,25 +1,9 @@
-package com.tfm.tfm.entity;
+package com.tfm.tfm.response;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "Marca")
-public class MarcaEntity implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+public class MarcaResponse {
 	
 	private String nombre;
 	private String resumen;
@@ -29,17 +13,15 @@ public class MarcaEntity implements Serializable {
 	private String compromiso;
 	private String procesoProduccion;
 	
-	@ManyToMany
-	private List<CategoriaEntity> categorias = new ArrayList<>();
+	private List<String> categorias = new ArrayList<>();
 	
-	@ManyToMany
-	private List<SubcategoriaEntity> subcategorias = new ArrayList<>();
+	private List<String> subcategorias = new ArrayList<>();
 
-	public MarcaEntity() {}
-
-	public MarcaEntity(String nombre, String resumen, String materiales, boolean crueltyFree, boolean vegano,
-			String compromiso, String procesoProduccion, List<CategoriaEntity> categorias,
-			List<SubcategoriaEntity> subcategorias) {
+	public MarcaResponse() {}
+	
+	public MarcaResponse(String nombre, String resumen, String materiales, boolean crueltyFree, boolean vegano,
+			String compromiso, String procesoProduccion, List<String> categorias,
+			List<String> subcategorias) {
 		this.nombre = nombre;
 		this.resumen = resumen;
 		this.materiales = materiales;
@@ -49,14 +31,6 @@ public class MarcaEntity implements Serializable {
 		this.procesoProduccion = procesoProduccion;
 		this.categorias = categorias;
 		this.subcategorias = subcategorias;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getNombre() {
@@ -115,19 +89,19 @@ public class MarcaEntity implements Serializable {
 		this.procesoProduccion = procesoProduccion;
 	}
 
-	public List<CategoriaEntity> getCategorias() {
+	public List<String> getCategorias() {
 		return categorias;
 	}
 
-	public void setCategorias(List<CategoriaEntity> categorias) {
+	public void setCategorias(List<String> categorias) {
 		this.categorias = categorias;
 	}
 
-	public List<SubcategoriaEntity> getSubcategorias() {
+	public List<String> getSubcategorias() {
 		return subcategorias;
 	}
 
-	public void setSubcategorias(List<SubcategoriaEntity> subcategorias) {
+	public void setSubcategorias(List<String> subcategorias) {
 		this.subcategorias = subcategorias;
-	}	
+	}
 }
