@@ -35,9 +35,9 @@ public class CategoriaEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public CategoriaEntity(String nombre, List<MarcaEntity> marcas) {
+	public CategoriaEntity(String nombre, List<SubcategoriaEntity> subcategorias) {
 		this.nombre = nombre;
-		this.marcas = marcas;
+		this.subcategorias = subcategorias;
 	}
 
 	public long getId() {
@@ -62,5 +62,13 @@ public class CategoriaEntity implements Serializable {
 
 	public void setMarcas(List<MarcaEntity> marcas) {
 		this.marcas = marcas;
+	}
+
+	public List<SubcategoriaEntity> getSubcategorias() {
+		return subcategorias;
+	}
+
+	public void setSubcategorias(List<SubcategoriaEntity> subcategorias) {
+		this.subcategorias = subcategorias;
 	}
 }

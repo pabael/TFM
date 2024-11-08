@@ -21,6 +21,8 @@ public class MarcaServiceImpl implements MarcaService{
 	@Autowired private MarcaRepository marcaRepository;
 	@Autowired private CategoriaRepository categoriaRepository;
 	@Autowired private SubcategoriaRepository subcategoriaRepository;
+	
+	@Autowired private CategoriaSubcategoriaService categoriaSubcategoriaService;
 
 	public MarcaResponse createMarca(MarcaDto marcaDto) {
 		
@@ -42,8 +44,8 @@ public class MarcaServiceImpl implements MarcaService{
 				marcaDto.isVegano(),
 				marcaDto.getCompromiso(),
 				marcaDto.getProcesoProduccion(),
-				getListCategoriaEntity(marcaDto.getCategorias()),
-				getListSubcategoriaEntity(marcaDto.getSubcategorias())
+				categoriaSubcategoriaService.getListCategoriaEntity(marcaDto.getCategorias()),
+				categoriaSubcategoriaService.getListSubcategoriaEntity(marcaDto.getSubcategorias())
 				);
 	}
 	
@@ -69,51 +71,5 @@ public class MarcaServiceImpl implements MarcaService{
 				categories,
 				subcategories
 				);
-	}
-	
-	private List<CategoriaEntity> getListCategoriaEntity(List<String> categories) {
-		List<CategoriaEntity> validCategories = new ArrayList<>();
-
-		categories.forEach(category -> {
-			var categoriaEntity = categoriaRepository.findByNombre(category);
-			if(categoriaEntity.isPresent()) 
-				validCategories.add(categoriaEntity.get());
-		});
-		
-		if(validCategories.isEmpty()) {
-			var categoriaNone = categoriaRepository.findByNombre("None");
-			if(categoriaNone.isPresent()) {
-				validCategories.add(categoriaNone.get());
-			} else {
-				CategoriaEntity none = new CategoriaEntity("None");
-				categoriaRepository.save(none);
-				validCategories.add(none);
-			}
-		}
-		
-		return validCategories;
-	}
-	
-	private List<SubcategoriaEntity> getListSubcategoriaEntity(List<String> subcategories) {
-		List<SubcategoriaEntity> validSubcategories = new ArrayList<>();
-
-		subcategories.forEach(subcategory -> {
-			var subcategoriaEntity = subcategoriaRepository.findByNombre(subcategory);
-			if(subcategoriaEntity.isPresent()) 
-				validSubcategories.add(subcategoriaEntity.get());
-		});
-		
-		if(validSubcategories.isEmpty()) {
-			var subcategoriaNone = subcategoriaRepository.findByNombre("None");
-			if(subcategoriaNone.isPresent()) {
-				validSubcategories.add(subcategoriaNone.get());
-			} else {
-				SubcategoriaEntity none = new SubcategoriaEntity("None");
-				subcategoriaRepository.save(none);
-				validSubcategories.add(none);
-			}
-		}
-		
-		return validSubcategories;
 	}
 }
