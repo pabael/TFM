@@ -80,7 +80,16 @@ public class MarcaServiceImpl implements MarcaService{
 				validCategories.add(categoriaEntity.get());
 		});
 		
-		if(validCategories.isEmpty()) validCategories.add(categoriaRepository.findByNombre("None").get());
+		if(validCategories.isEmpty()) {
+			var categoriaNone = categoriaRepository.findByNombre("None");
+			if(categoriaNone.isPresent()) {
+				validCategories.add(categoriaNone.get());
+			} else {
+				CategoriaEntity none = new CategoriaEntity("None");
+				categoriaRepository.save(none);
+				validCategories.add(none);
+			}
+		}
 		
 		return validCategories;
 	}
@@ -94,7 +103,16 @@ public class MarcaServiceImpl implements MarcaService{
 				validSubcategories.add(subcategoriaEntity.get());
 		});
 		
-		if(validSubcategories.isEmpty()) validSubcategories.add(subcategoriaRepository.findByNombre("None").get());
+		if(validSubcategories.isEmpty()) {
+			var subcategoriaNone = subcategoriaRepository.findByNombre("None");
+			if(subcategoriaNone.isPresent()) {
+				validSubcategories.add(subcategoriaNone.get());
+			} else {
+				SubcategoriaEntity none = new SubcategoriaEntity("None");
+				subcategoriaRepository.save(none);
+				validSubcategories.add(none);
+			}
+		}
 		
 		return validSubcategories;
 	}

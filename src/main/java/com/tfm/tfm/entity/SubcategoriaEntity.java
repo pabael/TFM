@@ -31,6 +31,15 @@ public class SubcategoriaEntity implements Serializable {
 	
 	public SubcategoriaEntity() {}
 	
+	public SubcategoriaEntity(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public SubcategoriaEntity(String nombre, List<CategoriaEntity> categorias) {
+		this.nombre = nombre;
+		this.categorias = categorias;
+	}
+	
 	public SubcategoriaEntity(String nombre, List<MarcaEntity> marcas, List<CategoriaEntity> categorias) {
 		this.nombre = nombre;
 		this.marcas = marcas;

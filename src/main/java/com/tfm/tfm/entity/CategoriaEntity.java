@@ -30,6 +30,10 @@ public class CategoriaEntity implements Serializable {
 	private List<SubcategoriaEntity> subcategorias = new ArrayList<>();
 	
 	public CategoriaEntity() {}
+	
+	public CategoriaEntity(String nombre) {
+		this.nombre = nombre;
+	}
 
 	public CategoriaEntity(String nombre, List<MarcaEntity> marcas) {
 		this.nombre = nombre;
