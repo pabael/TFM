@@ -3,26 +3,41 @@ package com.tfm.tfm.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
 public class MarcaDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Schema(name="nombre", example="Clotsy")
 	@NotNull
 	private String nombre;
 	
+	@Schema(name="resumen", example="Empresa valenciana.")
 	@NotNull
 	private String resumen;
+	
+	@Schema(name="materiales", example="algodón orgánico")
 	private String materiales;
+	
+	@Schema(name="crueltyFree", type="boolean",example="true")
 	private boolean crueltyFree;
+	
+	@Schema(name="vegano", type="boolean", example="true")
 	private boolean vegano;
+	
+	@Schema(name="compromiso", example="Plantan árboles.")
 	private String compromiso;
+	
+	@Schema(name="procesoProduccion", example="Pequeños artesanos. ")
 	private String procesoProduccion;
 	
 	@NotNull
+	@Schema(name="categorias", type="array", example="[\"ropa\", \"calzado\"]")
 	private List<String> categorias;
 	
+	@Schema(name="subcategorias", type="array", example="[\"pijamas\"]")
 	private List<String> subcategorias;
 
 	public MarcaDto() {}
