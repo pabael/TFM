@@ -10,6 +10,10 @@ public class SubcategoriaResponse {
 
 	public SubcategoriaResponse() {}
 	
+	public SubcategoriaResponse(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public SubcategoriaResponse(String nombre, List<String> categorias) {
 		this.nombre = nombre;
 		this.categorias = categorias;

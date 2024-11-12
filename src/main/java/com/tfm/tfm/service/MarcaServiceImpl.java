@@ -7,21 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfm.tfm.dto.MarcaDto;
-import com.tfm.tfm.entity.CategoriaEntity;
 import com.tfm.tfm.entity.MarcaEntity;
-import com.tfm.tfm.entity.SubcategoriaEntity;
-import com.tfm.tfm.repository.CategoriaRepository;
 import com.tfm.tfm.repository.MarcaRepository;
-import com.tfm.tfm.repository.SubcategoriaRepository;
 import com.tfm.tfm.response.MarcaResponse;
 
 @Service
 public class MarcaServiceImpl implements MarcaService{
 
 	@Autowired private MarcaRepository marcaRepository;
-	@Autowired private CategoriaRepository categoriaRepository;
-	@Autowired private SubcategoriaRepository subcategoriaRepository;
-	
+
 	@Autowired private CategoriaSubcategoriaService categoriaSubcategoriaService;
 
 	public MarcaResponse createMarca(MarcaDto marcaDto) {

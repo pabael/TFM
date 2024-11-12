@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class CategoriaEntity implements Serializable {
 	@ManyToMany (mappedBy = "categorias")
 	private List<MarcaEntity> marcas = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany (cascade = CascadeType.ALL)
 	private List<SubcategoriaEntity> subcategorias = new ArrayList<>();
 	
 	public CategoriaEntity() {}
@@ -70,5 +71,15 @@ public class CategoriaEntity implements Serializable {
 
 	public void setSubcategorias(List<SubcategoriaEntity> subcategorias) {
 		this.subcategorias = subcategorias;
+	}
+	
+	public void addSubcategoria(SubcategoriaEntity subcategoria) {
+		this.subcategorias.add(subcategoria);
+		subcategoria.addCategoria(this);
+	}
+	
+	public void deleteSubcategoria(SubcategoriaEntity subcategoria) {
+		this.subcategorias.remove(subcategoria);
+		subcategoria.deleteCategoria(this);
 	}
 }

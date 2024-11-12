@@ -37,32 +37,4 @@ public class MarcaController {
 	public MarcaResponse create(@RequestBody @Valid MarcaDto marcaDto) {
 		return marcaService.createMarca(marcaDto);
 	}
-	
-	@PostMapping("/categoria")
-	@Operation(summary = "Create new Categoria", 
-    description = "Create a new category in the system.")
-
-		@ApiResponses(value = { 
-				@ApiResponse(responseCode = "200", 
-					description = "${api.response-codes.ok.desc}"),
-				@ApiResponse(responseCode = "400", 
-		            description = "${api.response-codes.badRequest.desc}")
-		})
-	public CategoriaResponse create(@RequestBody @Valid CategoriaDto categoriaDto) {
-		return categoriaSubcategoriaService.createCategoria(categoriaDto);
-	}
-	
-	@PostMapping("/subcategoria")
-	@Operation(summary = "Create new Subcategoria", 
-    description = "Create a new subcategory in the system.")
-
-		@ApiResponses(value = { 
-				@ApiResponse(responseCode = "200", 
-					description = "${api.response-codes.ok.desc}"),
-				@ApiResponse(responseCode = "400", 
-		            description = "${api.response-codes.badRequest.desc}")
-		})
-	public SubcategoriaResponse create(@RequestBody @Valid SubcategoriaDto subcategoriaDto) {
-		return categoriaSubcategoriaService.createSubcategoria(subcategoriaDto);
-	}
 }

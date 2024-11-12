@@ -13,15 +13,11 @@ public class SubcategoriaDto implements Serializable {
 	@Schema(name="nombre", example="Pijama")
 	@NotNull
 	private String nombre;
-	
-	@Schema(name="categorias", type="array", example="[\"Ropa\"]")
-	private List<String> categorias;
 
 	public SubcategoriaDto() {}
 	
-	public SubcategoriaDto(@NotNull String nombre, List<String> categorias) {
+	public SubcategoriaDto(@NotNull String nombre) {
 		this.nombre = nombre;
-		this.categorias = categorias;
 	}
 
 	public String getNombre() {
@@ -30,13 +26,5 @@ public class SubcategoriaDto implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public List<String> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<String> categorias) {
-		this.categorias = categorias;
 	}
 }

@@ -77,4 +77,12 @@ public class SubcategoriaEntity implements Serializable {
 	public void setCategorias(List<CategoriaEntity> categorias) {
 		this.categorias = categorias;
 	}
+	
+	public void addCategoria(CategoriaEntity categoria) {
+		this.categorias.add(categoria);
+	}
+	
+	public void deleteCategoria(CategoriaEntity categoria) {
+		this.categorias.removeIf(cat -> cat.equals(categoria));
+	}
 }

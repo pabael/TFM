@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfm.tfm.dto.CategoriaDto;
+import com.tfm.tfm.dto.CategoriaSubcategoriaDto;
 import com.tfm.tfm.dto.SubcategoriaDto;
 import com.tfm.tfm.entity.CategoriaEntity;
 import com.tfm.tfm.entity.SubcategoriaEntity;
@@ -35,10 +36,7 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 	
 	private CategoriaEntity getCategoriaEntity(CategoriaDto categoriaDto) {
 		
-		return new CategoriaEntity(
-				categoriaDto.getNombre(), 
-				getListSubcategoriaEntity(categoriaDto.getSubcategorias())
-				);
+		return new CategoriaEntity(categoriaDto.getNombre());
 	}
 	
 	private CategoriaResponse getCategoriaResponse(CategoriaEntity categoriaEntity) {
@@ -60,18 +58,14 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 				validCategories.add(categoriaEntity.get());
 		});
 		
-		if(validCategories.isEmpty()) {
-			var categoriaNone = categoriaRepository.findByNombre("None");
-			if(categoriaNone.isPresent()) {
-				validCategories.add(categoriaNone.get());
-			} else {
-				CategoriaEntity none = new CategoriaEntity("None");
-				categoriaRepository.save(none);
-				validCategories.add(none);
-			}
-		}
-		
 		return validCategories;
+	}
+	
+	private List<CategoriaResponse> getListCategoriaResponse(List<CategoriaEntity> categoriaEntityList){
+		
+		List<CategoriaResponse> categoriaResponseList = new ArrayList<>();
+		categoriaEntityList.forEach(categoriaEntity -> categoriaResponseList.add(getCategoriaResponse(categoriaEntity)));
+		return categoriaResponseList;
 	}
 	
 	//Subcategorias
@@ -89,9 +83,7 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 	private SubcategoriaEntity getSubcategoriaEntity(SubcategoriaDto subcategoriaDto) {
 		
 		return new SubcategoriaEntity(
-				subcategoriaDto.getNombre(), 
-				getListCategoriaEntity(subcategoriaDto.getCategorias())
-				);
+				subcategoriaDto.getNombre());
 	}
 	
 	private SubcategoriaResponse getSubcategoriaResponse(SubcategoriaEntity subcategoriaEntity) {
@@ -113,17 +105,28 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 				validSubcategories.add(subcategoriaEntity.get());
 		});
 		
-		if(validSubcategories.isEmpty()) {
-			var subcategoriaNone = subcategoriaRepository.findByNombre("None");
-			if(subcategoriaNone.isPresent()) {
-				validSubcategories.add(subcategoriaNone.get());
-			} else {
-				SubcategoriaEntity none = new SubcategoriaEntity("None");
-				subcategoriaRepository.save(none);
-				validSubcategories.add(none);
-			}
-		}
-		
 		return validSubcategories;
+	}
+	
+	//Assign subcategories to categories
+	public List<CategoriaResponse> assignSubcategoriesToCategory(CategoriaSubcategoriaDto catSubDto) {
+		var categoryEntity = categoriaRepository.findByNombre(catSubDto.getCategoria());
+				
+		if(categoryEntity.isEmpty()){
+			return new ArrayList<>();
+		}
+
+		List<SubcategoriaEntity> validSubcategories = getListSubcategoriaEntity(catSubDto.getSubcategorias());
+
+		validSubcategories.forEach(subcategory -> {
+			if(!subcategoriaRepository.existsByCategoriasNombreAndNombre(categoryEntity.get().getNombre(), subcategory.getNombre())) {
+				categoryEntity.get().addSubcategoria(subcategory);
+				categoriaRepository.save(categoryEntity.get());
+			}
+		});
+		
+		List<CategoriaEntity> categoriaEntityList = categoriaRepository.findAll();
+		
+		return getListCategoriaResponse(categoriaEntityList);
 	}
 }
