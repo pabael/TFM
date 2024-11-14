@@ -1,6 +1,8 @@
-package com.tfm.tfm.service;
+package com.tfm.tfm.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import com.tfm.tfm.service.GeneralService;
 
 @Service
 public class GeneralServiceImpl implements GeneralService{
