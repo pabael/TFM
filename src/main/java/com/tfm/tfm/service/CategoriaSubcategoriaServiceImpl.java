@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.CategoriaDto;
 import com.tfm.tfm.dto.CategoriaSubcategoriaDto;
@@ -35,6 +37,8 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 	}
 	
 	private CategoriaEntity getCategoriaEntity(CategoriaDto categoriaDto) {
+		
+		if(!categoriaRepository.findByNombre(categoriaDto.getNombre()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria already exits");
 		
 		return new CategoriaEntity(categoriaDto.getNombre());
 	}
@@ -82,8 +86,10 @@ public class CategoriaSubcategoriaServiceImpl implements CategoriaSubcategoriaSe
 	
 	private SubcategoriaEntity getSubcategoriaEntity(SubcategoriaDto subcategoriaDto) {
 		
-		return new SubcategoriaEntity(
-				subcategoriaDto.getNombre());
+		if(!subcategoriaRepository.findByNombre(subcategoriaDto.getNombre()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategoria already exits");
+
+		
+		return new SubcategoriaEntity(subcategoriaDto.getNombre());
 	}
 	
 	private SubcategoriaResponse getSubcategoriaResponse(SubcategoriaEntity subcategoriaEntity) {
