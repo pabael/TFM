@@ -40,7 +40,7 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 	
 	private CategoryEntity getCategoryEntity(CategoryDto categoryDto) {
 		
-		if(!categoryRepository.findByName(categoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category already exits");
+		if(!categoryRepository.findByName(categoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category already exists");
 		
 		return new CategoryEntity(generalService.capitalizeFirstLetter(categoryDto.getName()));
 	}
@@ -88,7 +88,7 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 	
 	private SubcategoryEntity getSubcategoryEntity(SubcategoryDto subcategoryDto) {
 		
-		if(!subcategoryRepository.findByName(subcategoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory already exits");
+		if(!subcategoryRepository.findByName(subcategoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory already exists");
 
 		
 		return new SubcategoryEntity(generalService.capitalizeFirstLetter(subcategoryDto.getName()));

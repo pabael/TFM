@@ -34,7 +34,7 @@ public class BrandServiceImpl implements BrandService{
 	
 	private BrandEntity getBrandEntity(BrandDto brandDto) {
 		
-		if(!brandRepository.findByName(brandDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand already exits");
+		if(!brandRepository.findByName(brandDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand already exists");
 		
 		return new BrandEntity(
 				generalService.capitalizeFirstLetter(brandDto.getName()), 
