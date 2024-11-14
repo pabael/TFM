@@ -1,4 +1,4 @@
-package com.tfm.tfm.service;
+package com.tfm.tfm.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import com.tfm.tfm.repository.CategoryRepository;
 import com.tfm.tfm.repository.SubcategoryRepository;
 import com.tfm.tfm.response.CategoryResponse;
 import com.tfm.tfm.response.SubcategoryResponse;
+import com.tfm.tfm.service.CategorySubcategoryService;
+import com.tfm.tfm.service.GeneralService;
 
 @Service
 public class CategorySubcategoryServiceImpl implements CategorySubcategoryService{
@@ -66,13 +68,6 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		});
 		
 		return validCategories;
-	}
-	
-	private List<CategoryResponse> getListCategoryResponse(List<CategoryEntity> categoryEntityList){
-		
-		List<CategoryResponse> categoryResponseList = new ArrayList<>();
-		categoryEntityList.forEach(categoryEntity -> categoryResponseList.add(getCategoryResponse(categoryEntity)));
-		return categoryResponseList;
 	}
 
 	public void deleteCategory(CategoryDto categoryDto){
