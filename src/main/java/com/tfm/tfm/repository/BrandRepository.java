@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tfm.tfm.entity.MarcaEntity;
+import com.tfm.tfm.entity.BrandEntity;
 
 @Repository
-public interface MarcaRepository extends JpaRepository<MarcaEntity, String>{
+public interface BrandRepository extends JpaRepository<BrandEntity, String>{
 	
-	Optional<MarcaEntity> findByNombre(String nombre);
+	Optional<BrandEntity> findByName(String name);
 }

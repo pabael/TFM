@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfm.tfm.dto.CategoriaDto;
-import com.tfm.tfm.dto.MarcaDto;
-import com.tfm.tfm.dto.SubcategoriaDto;
-import com.tfm.tfm.response.CategoriaResponse;
-import com.tfm.tfm.response.MarcaResponse;
-import com.tfm.tfm.response.SubcategoriaResponse;
-import com.tfm.tfm.service.CategoriaSubcategoriaService;
-import com.tfm.tfm.service.MarcaService;
+import com.tfm.tfm.dto.CategoryDto;
+import com.tfm.tfm.dto.BrandDto;
+import com.tfm.tfm.dto.SubcategoryDto;
+import com.tfm.tfm.response.CategoryResponse;
+import com.tfm.tfm.response.BrandResponse;
+import com.tfm.tfm.response.SubcategoryResponse;
+import com.tfm.tfm.service.CategorySubcategoryService;
+import com.tfm.tfm.service.BrandService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,12 +20,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
-public class MarcaController {
-	@Autowired private MarcaService marcaService;
-	@Autowired private CategoriaSubcategoriaService categoriaSubcategoriaService;
+public class BrandController {
+	@Autowired private BrandService brandService;
 
-	@PostMapping("/marca")
-	@Operation(summary = "Create new Marca", 
+	@PostMapping("/brand")
+	@Operation(summary = "Create new Brand", 
     description = "Create a new brand in the system.")
 
 		@ApiResponses(value = { 
@@ -34,7 +33,7 @@ public class MarcaController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public MarcaResponse create(@RequestBody @Valid MarcaDto marcaDto) {
-		return marcaService.createMarca(marcaDto);
+	public BrandResponse create(@RequestBody @Valid BrandDto brandDto) {
+		return brandService.createBrand(brandDto);
 	}
 }

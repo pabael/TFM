@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfm.tfm.dto.CategoriaDto;
-import com.tfm.tfm.dto.CategoriaSubcategoriaDto;
-import com.tfm.tfm.dto.SubcategoriaDto;
-import com.tfm.tfm.response.CategoriaResponse;
-import com.tfm.tfm.response.SubcategoriaResponse;
-import com.tfm.tfm.service.CategoriaSubcategoriaService;
+import com.tfm.tfm.dto.CategoryDto;
+import com.tfm.tfm.dto.CategorySubcategoryDto;
+import com.tfm.tfm.dto.SubcategoryDto;
+import com.tfm.tfm.response.CategoryResponse;
+import com.tfm.tfm.response.SubcategoryResponse;
+import com.tfm.tfm.service.CategorySubcategoryService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,11 +20,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
-public class CategoriaSubcategoriaController {
-	@Autowired private CategoriaSubcategoriaService categoriaSubcategoriaService;
+public class CategorySubcategoryController {
+	@Autowired private CategorySubcategoryService categorySubcategoryService;
 
-	@PostMapping("/categoria")
-	@Operation(summary = "Create new Categoria", 
+	@PostMapping("/category")
+	@Operation(summary = "Create new Category", 
     description = "Create a new category in the system.")
 
 		@ApiResponses(value = { 
@@ -33,12 +33,12 @@ public class CategoriaSubcategoriaController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public CategoriaResponse create(@RequestBody @Valid CategoriaDto categoriaDto) {
-		return categoriaSubcategoriaService.createCategoria(categoriaDto);
+	public CategoryResponse create(@RequestBody @Valid CategoryDto categoryDto) {
+		return categorySubcategoryService.createCategory(categoryDto);
 	}
 	
-	@PostMapping("/subcategoria")
-	@Operation(summary = "Create new Subcategoria", 
+	@PostMapping("/subcategory")
+	@Operation(summary = "Create new Subcategory", 
     description = "Create a new subcategory in the system.")
 
 		@ApiResponses(value = { 
@@ -47,8 +47,8 @@ public class CategoriaSubcategoriaController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public SubcategoriaResponse create(@RequestBody @Valid SubcategoriaDto subcategoriaDto) {
-		return categoriaSubcategoriaService.createSubcategoria(subcategoriaDto);
+	public SubcategoryResponse create(@RequestBody @Valid SubcategoryDto subcategoryDto) {
+		return categorySubcategoryService.createSubcategory(subcategoryDto);
 	}
 	
 	@PostMapping("/assign")
@@ -60,7 +60,7 @@ public class CategoriaSubcategoriaController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public List<CategoriaResponse> assign(@RequestBody @Valid CategoriaSubcategoriaDto catSubDto) {
-		return categoriaSubcategoriaService.assignSubcategoriesToCategory(catSubDto);
+	public List<CategoryResponse> assign(@RequestBody @Valid CategorySubcategoryDto catSubDto) {
+		return categorySubcategoryService.assignSubcategoriesToCategory(catSubDto);
 	}
 }
