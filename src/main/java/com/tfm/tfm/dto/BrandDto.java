@@ -22,10 +22,10 @@ public class BrandDto implements Serializable {
 	private String materials;
 	
 	@Schema(name="crueltyFree", type="boolean",example="true")
-	private boolean crueltyFree;
+	private Boolean crueltyFree;
 	
 	@Schema(name="vegan", type="boolean", example="true")
-	private boolean vegan;
+	private Boolean vegan;
 	
 	@Schema(name="commitment", example="Plantan árboles.")
 	private String commitment;
@@ -42,8 +42,8 @@ public class BrandDto implements Serializable {
 
 	public BrandDto() {}
 	
-	public BrandDto(@NotNull String name, @NotNull String summary, String materials, boolean crueltyFree,
-			boolean vegan, String commitment, String production, @NotNull List<String> categories,
+	public BrandDto(@NotNull String name, @NotNull String summary, String materials, Boolean crueltyFree,
+			Boolean vegan, String commitment, String production, @NotNull List<String> categories,
 			List<String> subcategories) {
 		this.name = name;
 		this.summary = summary;
@@ -80,19 +80,19 @@ public class BrandDto implements Serializable {
 		this.materials = materials;
 	}
 
-	public boolean isCrueltyFree() {
+	public Boolean isCrueltyFree() {
 		return crueltyFree;
 	}
 
-	public void setCrueltyFree(boolean crueltyFree) {
+	public void setCrueltyFree(Boolean crueltyFree) {
 		this.crueltyFree = crueltyFree;
 	}
 
-	public boolean isVegan() {
+	public Boolean isVegan() {
 		return vegan;
 	}
 
-	public void setVegan(boolean vegan) {
+	public void setVegan(Boolean vegan) {
 		this.vegan = vegan;
 	}
 

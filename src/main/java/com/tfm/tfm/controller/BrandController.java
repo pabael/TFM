@@ -2,6 +2,7 @@ package com.tfm.tfm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +36,19 @@ public class BrandController {
 		})
 	public BrandResponse create(@RequestBody @Valid BrandDto brandDto) {
 		return brandService.createBrand(brandDto);
+	}
+	
+	@PutMapping("/brand")
+	@Operation(summary = "Update Brand information", 
+    description = "Updated brand information giving Name.")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public BrandResponse update(@RequestBody @Valid BrandDto brandDto) {
+		return brandService.updateBrand(brandDto);
 	}
 }

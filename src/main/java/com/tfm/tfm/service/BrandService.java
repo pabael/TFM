@@ -6,4 +6,7 @@ import com.tfm.tfm.response.BrandResponse;
 public interface BrandService {
 		
 	BrandResponse createBrand(BrandDto brandDto);
+
+	BrandResponse updateBrand(BrandDto brandDto);
+
 }

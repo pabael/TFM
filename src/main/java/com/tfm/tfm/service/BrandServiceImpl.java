@@ -2,6 +2,7 @@ package com.tfm.tfm.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,4 +73,27 @@ public class BrandServiceImpl implements BrandService{
 				subcategories
 		);
 	}
+
+	public	BrandResponse updateBrand(BrandDto brandDto){
+	
+		Optional<BrandEntity> brand = brandRepository.findByName(brandDto.getName());
+		
+		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand does not exist");
+		
+		if(brandDto.getName() != null) brand.get().setName(generalService.capitalizeFirstLetter(brandDto.getName()));
+		if(brandDto.getSummary() != null) brand.get().setSummary(brandDto.getSummary());
+		if(brandDto.getMaterials() != null) brand.get().setMaterials(brandDto.getMaterials());
+		if(brandDto.isCrueltyFree() != null) brand.get().setCrueltyFree(brandDto.isCrueltyFree());
+		if(brandDto.isVegan() != null) brand.get().setVegan(brandDto.isVegan());
+		if(brandDto.getCommitment() != null) brand.get().setCommitment(brandDto.getCommitment());
+		if(brandDto.getProduction() != null) brand.get().setProduction(brandDto.getProduction());
+		
+		if(!brandDto.getCategories().isEmpty()) brand.get().setCategories(categorySubcategoryService.getListCategoryEntity(brandDto.getCategories()));
+		if(brandDto.getSubcategories() != null) brand.get().setSubcategories(categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()));
+
+		brandRepository.save(brand.get());
+		
+		return getBrandResponse(brand.get());
+	}
+
 }
