@@ -22,4 +22,6 @@ public interface CategorySubcategoryService {
 	List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories);
 
 	CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);	
+	void deleteRelationship(CategorySubcategoryDto catSubDto);
+
 }

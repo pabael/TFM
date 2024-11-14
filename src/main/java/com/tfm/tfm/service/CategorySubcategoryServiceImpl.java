@@ -2,6 +2,7 @@ package com.tfm.tfm.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,6 +74,15 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		categoryEntityList.forEach(categoryEntity -> categoryResponseList.add(getCategoryResponse(categoryEntity)));
 		return categoryResponseList;
 	}
+
+	public void deleteCategory(CategoryDto categoryDto){
+		
+		Optional<CategoryEntity> category = categoryRepository.findByName(categoryDto.getName());
+		
+		if(category.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "category does not exist");
+		
+		categoryRepository.delete(category.get());
+	}
 	
 	//Subcategories
 	
@@ -115,7 +125,16 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		
 		return validSubcategories;
 	}
-	
+
+	public void deleteSubcategory(SubcategoryDto subcategoryDto){
+		
+		Optional<SubcategoryEntity> subcategory = subcategoryRepository.findByName(subcategoryDto.getName());
+		
+		if(subcategory.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subcategory does not exist");
+		
+		subcategoryRepository.delete(subcategory.get());
+	}
+
 	//Assign subcategory to a category
 
 	public CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto) {
@@ -127,9 +146,23 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 
 		if(categoryRepository.existsByNameAndSubcategories_Name(catSubDto.getCategory(), catSubDto.getSubcategory())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category and subcategory relationship already exists");
 
-				categoryEntity.get().addSubcategory(subcategoryEntity.get());
-				categoryRepository.save(categoryEntity.get());
+		categoryEntity.get().addSubcategory(subcategoryEntity.get());
+		categoryRepository.save(categoryEntity.get());
 		
 		return getCategoryResponse(categoryEntity.get());
 	}
+
+	public void deleteRelationship(CategorySubcategoryDto catSubDto){
+		var categoryEntity = categoryRepository.findByName(catSubDto.getCategory());
+		var subcategoryEntity = subcategoryRepository.findByName(catSubDto.getSubcategory());
+	
+		if(categoryEntity.isEmpty() || subcategoryEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category or subcategory does not exist");
+
+		if(!categoryRepository.existsByNameAndSubcategories_Name(catSubDto.getCategory(), catSubDto.getSubcategory())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category and subcategory relationship does not exist");
+		
+		categoryEntity.get().deleteSubcategory(subcategoryEntity.get());
+		categoryRepository.save(categoryEntity.get());
+		subcategoryRepository.save(subcategoryEntity.get());
+	}
+
 }
