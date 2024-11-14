@@ -60,7 +60,7 @@ public class CategorySubcategoryController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public List<CategoryResponse> assign(@RequestBody @Valid CategorySubcategoryDto catSubDto) {
-		return categorySubcategoryService.assignSubcategoriesToCategory(catSubDto);
+	public CategoryResponse assign(@RequestBody @Valid CategorySubcategoryDto catSubDto) {
+		return categorySubcategoryService.assignSubcategoryToCategory(catSubDto);
 	}
 }

@@ -18,7 +18,7 @@ public interface CategorySubcategoryService {
 	public List<CategoryEntity> getListCategoryEntity(List<String> categories);
 	public List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories);
 
-	public List<CategoryResponse> assignSubcategoriesToCategory(CategorySubcategoryDto catSubDto);
+	public CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);
 
 	
 }

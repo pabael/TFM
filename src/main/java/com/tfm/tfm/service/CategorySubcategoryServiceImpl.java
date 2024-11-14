@@ -116,25 +116,19 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		return validSubcategories;
 	}
 	
-	//Assign subcategories to categories
-	public List<CategoryResponse> assignSubcategoriesToCategory(CategorySubcategoryDto catSubDto) {
+	//Assign subcategory to a category
+	public CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto) {
+		
 		var categoryEntity = categoryRepository.findByName(catSubDto.getCategory());
-				
-		if(categoryEntity.isEmpty()){
-			return new ArrayList<>();
-		}
+		var subcategoryEntity = subcategoryRepository.findByName(catSubDto.getSubcategory());
 
-		List<SubcategoryEntity> validSubcategories = getListSubcategoryEntity(catSubDto.getSubcategories());
+		if(categoryEntity.isEmpty() || subcategoryEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subcategory does not exist");
 
-		validSubcategories.forEach(subcategory -> {
-			if(!subcategoryRepository.existsByCategoriesNameAndName(categoryEntity.get().getName(), subcategory.getName())) {
-				categoryEntity.get().addSubcategory(subcategory);
+		if(!subcategoryRepository.existsByCategoriesNameAndName(catSubDto.getCategory(), catSubDto.getSubcategory())) {
+				categoryEntity.get().addSubcategory(subcategoryEntity.get());
 				categoryRepository.save(categoryEntity.get());
 			}
-		});
 		
-		List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
-		
-		return getListCategoryResponse(categoryEntityList);
+		return getCategoryResponse(categoryEntity.get());
 	}
 }

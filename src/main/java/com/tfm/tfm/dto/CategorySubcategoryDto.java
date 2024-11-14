@@ -14,15 +14,15 @@ public class CategorySubcategoryDto implements Serializable {
 	@NotNull
 	private String category;
 	
-	@Schema(name="subcategories", type="array", example="[\"deporte\", \"vaqueros\"]")
+	@Schema(name="subcategory", example="deporte")
 	@NotNull
-	private List<String> subcategories;
+	private String subcategory;
 
 	public CategorySubcategoryDto() {}
 	
-	public CategorySubcategoryDto(@NotNull String category, @NotNull List<String> subcategories) {
+	public CategorySubcategoryDto(@NotNull String category, @NotNull String subcategory) {
 		this.category = category;
-		this.subcategories = subcategories;
+		this.subcategory = subcategory;
 	}
 	
 	public String getCategory() {
@@ -33,12 +33,12 @@ public class CategorySubcategoryDto implements Serializable {
 		this.category = category;
 	}
 
-	public List<String> getSubcategories() {
-		return subcategories;
+	public String getSubcategory() {
+		return subcategory;
 	}
 
-	public void setSubcategories(List<String> subcategories) {
-		this.subcategories = subcategories;
+	public void setSubcategory(String subcategory) {
+		this.subcategory = subcategory;
 	}
 
 }
