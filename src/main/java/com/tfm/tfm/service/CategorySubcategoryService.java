@@ -13,12 +13,13 @@ import com.tfm.tfm.response.SubcategoryResponse;
 public interface CategorySubcategoryService {
 		
 	CategoryResponse createCategory(CategoryDto categoryDto);
+	void deleteCategory(CategoryDto categoryDto);
+
 	SubcategoryResponse createSubcategory(SubcategoryDto subcategoryDto);
+	void deleteSubcategory(SubcategoryDto subcategoryDto);
 
-	public List<CategoryEntity> getListCategoryEntity(List<String> categories);
-	public List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories);
+	List<CategoryEntity> getListCategoryEntity(List<String> categories);
+	List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories);
 
-	public CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);
-
-	
+	CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);	
 }
