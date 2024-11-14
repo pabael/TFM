@@ -117,17 +117,18 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 	}
 	
 	//Assign subcategory to a category
+
 	public CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto) {
 		
 		var categoryEntity = categoryRepository.findByName(catSubDto.getCategory());
 		var subcategoryEntity = subcategoryRepository.findByName(catSubDto.getSubcategory());
 
-		if(categoryEntity.isEmpty() || subcategoryEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subcategory does not exist");
+		if(categoryEntity.isEmpty() || subcategoryEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory does not exist");
 
-		if(!subcategoryRepository.existsByCategoriesNameAndName(catSubDto.getCategory(), catSubDto.getSubcategory())) {
+		if(categoryRepository.existsByNameAndSubcategories_Name(catSubDto.getCategory(), catSubDto.getSubcategory())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category and subcategory relationship already exists");
+
 				categoryEntity.get().addSubcategory(subcategoryEntity.get());
 				categoryRepository.save(categoryEntity.get());
-			}
 		
 		return getCategoryResponse(categoryEntity.get());
 	}
