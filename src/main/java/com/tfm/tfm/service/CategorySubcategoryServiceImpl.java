@@ -23,6 +23,8 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 
 	@Autowired private CategoryRepository categoryRepository;
 	@Autowired private SubcategoryRepository subcategoryRepository;
+	
+	@Autowired private GeneralService generalService;
 
 	//Categories
 	
@@ -40,7 +42,7 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		
 		if(!categoryRepository.findByName(categoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category already exits");
 		
-		return new CategoryEntity(categoryDto.getName());
+		return new CategoryEntity(generalService.capitalizeFirstLetter(categoryDto.getName()));
 	}
 	
 	private CategoryResponse getCategoryResponse(CategoryEntity categoryEntity) {
@@ -89,7 +91,7 @@ public class CategorySubcategoryServiceImpl implements CategorySubcategoryServic
 		if(!subcategoryRepository.findByName(subcategoryDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory already exits");
 
 		
-		return new SubcategoryEntity(subcategoryDto.getName());
+		return new SubcategoryEntity(generalService.capitalizeFirstLetter(subcategoryDto.getName()));
 	}
 	
 	private SubcategoryResponse getSubcategoryResponse(SubcategoryEntity subcategoryEntity) {

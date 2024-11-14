@@ -19,6 +19,8 @@ public class BrandServiceImpl implements BrandService{
 	@Autowired private BrandRepository brandRepository;
 
 	@Autowired private CategorySubcategoryService categorySubcategoryService;
+	
+	@Autowired private GeneralService generalService;
 
 	public BrandResponse createBrand(BrandDto brandDto) {
 		
@@ -35,9 +37,9 @@ public class BrandServiceImpl implements BrandService{
 		if(!brandRepository.findByName(brandDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand already exits");
 		
 		return new BrandEntity(
-				brandDto.getName(), 
-				brandDto.getSummary(),
-				brandDto.getMaterials(),
+				generalService.capitalizeFirstLetter(brandDto.getName()), 
+				brandDto.getSummary(), 
+				brandDto.getMaterials(), 
 				brandDto.isCrueltyFree(),
 				brandDto.isVegan(),
 				brandDto.getCommitment(),
