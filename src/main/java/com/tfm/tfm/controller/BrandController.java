@@ -1,21 +1,18 @@
 package com.tfm.tfm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfm.tfm.dto.CategoryDto;
 import com.tfm.tfm.dto.BrandDto;
-import com.tfm.tfm.dto.SubcategoryDto;
-import com.tfm.tfm.response.CategoryResponse;
 import com.tfm.tfm.response.BrandResponse;
-import com.tfm.tfm.response.SubcategoryResponse;
-import com.tfm.tfm.service.CategorySubcategoryService;
 import com.tfm.tfm.service.BrandService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -50,5 +47,19 @@ public class BrandController {
 		})
 	public BrandResponse update(@RequestBody @Valid BrandDto brandDto) {
 		return brandService.updateBrand(brandDto);
+	}
+
+	@DeleteMapping("/brand")
+	@Operation(summary = "Delete Brand information", 
+    description = "Delete brand giving Name.")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public void delete(@RequestBody @Valid @Schema(example = "\"clotsy\"") String brandName) {
+		brandService.deleteBrand(brandName);
 	}
 }

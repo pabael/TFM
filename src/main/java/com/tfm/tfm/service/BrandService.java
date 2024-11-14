@@ -9,4 +9,6 @@ public interface BrandService {
 
 	BrandResponse updateBrand(BrandDto brandDto);
 
+	void deleteBrand(String brandName);
+
 }

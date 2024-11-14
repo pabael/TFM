@@ -96,4 +96,13 @@ public class BrandServiceImpl implements BrandService{
 		return getBrandResponse(brand.get());
 	}
 
+	public	void deleteBrand(String brandName){
+	
+		Optional<BrandEntity> brand = brandRepository.findByName(brandName);
+		
+		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand does not exist");
+		
+		brandRepository.delete(brand.get());
+	}
+
 }
