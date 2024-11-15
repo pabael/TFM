@@ -15,6 +15,7 @@ import com.tfm.tfm.repository.BrandRepository;
 import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandService;
 import com.tfm.tfm.service.CategorySubcategoryService;
+import com.tfm.tfm.service.ConsumerService;
 import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LabelService;
 
@@ -26,6 +27,7 @@ public class BrandServiceImpl implements BrandService{
 	@Autowired private GeneralService generalService;
 	@Autowired private CategorySubcategoryService categorySubcategoryService;
 	@Autowired private LabelService labelService;
+	@Autowired private ConsumerService consumerService;
 
 	public BrandResponse createBrand(BrandDto brandDto) {
 		
@@ -51,7 +53,8 @@ public class BrandServiceImpl implements BrandService{
 				brandDto.getProduction(),
 				categorySubcategoryService.getListCategoryEntity(brandDto.getCategories()),
 				categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()),
-				labelService.getListLabelEntity(brandDto.getLabels())
+				labelService.getListLabelEntity(brandDto.getLabels()),
+				consumerService.getListConsumerEntity(brandDto.getConsumers())
 				);
 	}
 	
@@ -70,6 +73,11 @@ public class BrandServiceImpl implements BrandService{
 		brandEntity.getLabels().forEach(label -> {
 			labels.add(label.getName());
 		});
+
+		List<String> consumers = new ArrayList<>();
+		brandEntity.getConsumers().forEach(consumer -> {
+			consumers.add(consumer.getType());
+		});
 		
 		return new BrandResponse(
 				brandEntity.getName(), 
@@ -81,7 +89,8 @@ public class BrandServiceImpl implements BrandService{
 				brandEntity.getProduction(),
 				categories,
 				subcategories,
-				labels
+				labels,
+				consumers
 		);
 	}
 
@@ -102,6 +111,7 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.getCategories() != null) brand.get().setCategories(categorySubcategoryService.getListCategoryEntity(brandDto.getCategories()));
 		if(brandDto.getSubcategories() != null) brand.get().setSubcategories(categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()));
 		if(brandDto.getLabels() != null) brand.get().setLabels(labelService.getListLabelEntity(brandDto.getLabels()));
+		if(brandDto.getConsumers() != null) brand.get().setConsumers(consumerService.getListConsumerEntity(brandDto.getConsumers()));
 
 		brandRepository.save(brand.get());
 		

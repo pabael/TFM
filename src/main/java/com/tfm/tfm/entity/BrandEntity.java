@@ -38,11 +38,14 @@ public class BrandEntity implements Serializable {
 	@ManyToMany
 	private List<LabelEntity> labels = new ArrayList<>();
 
+	@ManyToMany
+	private List<ConsumerEntity> consumers = new ArrayList<>();
+
 	public BrandEntity() {}
 
 	public BrandEntity(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
 			String commitment, String production, List<CategoryEntity> categories,
-			List<SubcategoryEntity> subcategories, List<LabelEntity> labels) {
+			List<SubcategoryEntity> subcategories, List<LabelEntity> labels, List<ConsumerEntity> consumers) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -53,6 +56,7 @@ public class BrandEntity implements Serializable {
 		this.categories = categories;
 		this.subcategories = subcategories;
 		this.labels = labels;
+		this.consumers = consumers;
 	}
 
 	public long getId() {
@@ -141,5 +145,13 @@ public class BrandEntity implements Serializable {
 
 	public void setLabels(List<LabelEntity> labels) {
 		this.labels = labels;
+	}
+
+	public List<ConsumerEntity> getConsumers() {
+		return consumers;
+	}
+
+	public void setConsumers(List<ConsumerEntity> consumers) {
+		this.consumers = consumers;
 	}
 }
