@@ -18,6 +18,7 @@ import com.tfm.tfm.service.CategorySubcategoryService;
 import com.tfm.tfm.service.ConsumerService;
 import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LabelService;
+import com.tfm.tfm.service.LocationService;
 import com.tfm.tfm.service.PriceService;
 
 @Service
@@ -30,6 +31,7 @@ public class BrandServiceImpl implements BrandService{
 	@Autowired private LabelService labelService;
 	@Autowired private ConsumerService consumerService;
 	@Autowired private PriceService priceService;
+	@Autowired private LocationService locationService;
 
 	public BrandResponse createBrand(BrandDto brandDto) {
 		
@@ -57,7 +59,8 @@ public class BrandServiceImpl implements BrandService{
 				categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()),
 				labelService.getListLabelEntity(brandDto.getLabels()),
 				consumerService.getListConsumerEntity(brandDto.getConsumers()),
-				priceService.getPriceEntity(brandDto.getPrice())		
+				priceService.getPriceEntity(brandDto.getPrice()),
+				locationService.getListLocationEntity(brandDto.getLocations())
 			);
 	}
 	
@@ -81,6 +84,11 @@ public class BrandServiceImpl implements BrandService{
 		brandEntity.getConsumers().forEach(consumer -> {
 			consumers.add(consumer.getType());
 		});
+
+		List<String> locations = new ArrayList<>();
+		brandEntity.getLocations().forEach(location -> {
+			locations.add(location.getName());
+		});
 		
 		return new BrandResponse(
 				brandEntity.getName(), 
@@ -94,7 +102,8 @@ public class BrandServiceImpl implements BrandService{
 				subcategories,
 				labels,
 				consumers,
-				brandEntity.getPrice().getPriceRange()
+				brandEntity.getPrice().getPriceRange(),
+				locations
 		);
 	}
 
@@ -118,6 +127,8 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.getConsumers() != null) brand.get().setConsumers(consumerService.getListConsumerEntity(brandDto.getConsumers()));
 		
 		if(brandDto.getPrice() != null) brand.get().setPrice(priceService.getPriceEntity(brandDto.getPrice()));
+
+		if(brandDto.getLocations() != null) brand.get().setLocations(locationService.getListLocationEntity(brandDto.getLocations()));
 
 		brandRepository.save(brand.get());
 		

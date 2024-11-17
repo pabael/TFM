@@ -45,11 +45,14 @@ public class BrandEntity implements Serializable {
 	@ManyToOne
 	private PriceEntity price;
 
+	@ManyToMany
+	private List<LocationEntity> locations = new ArrayList<>();
+
 	public BrandEntity() {}
 
 	public BrandEntity(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
 			String commitment, String production, List<CategoryEntity> categories,
-			List<SubcategoryEntity> subcategories, List<LabelEntity> labels, List<ConsumerEntity> consumers, PriceEntity price) {
+			List<SubcategoryEntity> subcategories, List<LabelEntity> labels, List<ConsumerEntity> consumers, PriceEntity price, List<LocationEntity> locations) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -62,6 +65,7 @@ public class BrandEntity implements Serializable {
 		this.labels = labels;
 		this.consumers = consumers;
 		this.price = price;
+		this.locations = locations;
 	}
 
 	public long getId() {
@@ -166,5 +170,13 @@ public class BrandEntity implements Serializable {
 
 	public void setPrice(PriceEntity price) {
 		this.price = price;
+	}
+
+	public List<LocationEntity> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<LocationEntity> locations) {
+		this.locations = locations;
 	}
 }
