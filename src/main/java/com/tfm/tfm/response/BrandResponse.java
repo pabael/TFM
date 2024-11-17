@@ -21,11 +21,13 @@ public class BrandResponse {
 
 	private List<String> consumers = new ArrayList<>();
 
+	private int price;
+
 	public BrandResponse() {}
 	
 	public BrandResponse(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
 			String commitment, String production, List<String> categories,
-			List<String> subcategories, List<String> labels, List<String> consumers) {
+			List<String> subcategories, List<String> labels, List<String> consumers, int price) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -37,6 +39,7 @@ public class BrandResponse {
 		this.subcategories = subcategories;
 		this.labels = labels;
 		this.consumers = consumers;
+		this.price = price;
 	}
 
 	public String getName() {
@@ -125,5 +128,13 @@ public class BrandResponse {
 
 	public void setConsumers(List<String> consumers) {
 		this.consumers = consumers;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

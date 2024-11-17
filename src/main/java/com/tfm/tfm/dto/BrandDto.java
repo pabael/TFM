@@ -44,11 +44,14 @@ public class BrandDto implements Serializable {
 	@Schema(name="consumers", type="array", example="[\"Mujer\"]")
 	private List<String> consumers;
 
+	@Schema(name="price", example="1")
+	private Integer price;
+
 	public BrandDto() {}
 	
 	public BrandDto(@NotNull String name, String summary, String materials, Boolean crueltyFree,
 			Boolean vegan, String commitment, String production, List<String> categories,
-			List<String> subcategories, List<String> labels, List<String> consumers) {
+			List<String> subcategories, List<String> labels, List<String> consumers, Integer price) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -60,6 +63,7 @@ public class BrandDto implements Serializable {
 		this.subcategories = subcategories;
 		this.labels = labels;
 		this.consumers = consumers;
+		this.price = price;
 	}
 
 	public String getName() {
@@ -148,5 +152,13 @@ public class BrandDto implements Serializable {
 
 	public void setConsumers(List<String> consumers) {
 		this.consumers = consumers;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 }

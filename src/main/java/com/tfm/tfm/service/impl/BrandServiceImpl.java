@@ -18,6 +18,7 @@ import com.tfm.tfm.service.CategorySubcategoryService;
 import com.tfm.tfm.service.ConsumerService;
 import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LabelService;
+import com.tfm.tfm.service.PriceService;
 
 @Service
 public class BrandServiceImpl implements BrandService{
@@ -28,6 +29,7 @@ public class BrandServiceImpl implements BrandService{
 	@Autowired private CategorySubcategoryService categorySubcategoryService;
 	@Autowired private LabelService labelService;
 	@Autowired private ConsumerService consumerService;
+	@Autowired private PriceService priceService;
 
 	public BrandResponse createBrand(BrandDto brandDto) {
 		
@@ -42,7 +44,7 @@ public class BrandServiceImpl implements BrandService{
 	private BrandEntity getBrandEntity(BrandDto brandDto) {
 		
 		if(!brandRepository.findByName(brandDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand already exists");
-		
+
 		return new BrandEntity(
 				generalService.capitalizeFirstLetter(brandDto.getName()), 
 				brandDto.getSummary(), 
@@ -54,8 +56,9 @@ public class BrandServiceImpl implements BrandService{
 				categorySubcategoryService.getListCategoryEntity(brandDto.getCategories()),
 				categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()),
 				labelService.getListLabelEntity(brandDto.getLabels()),
-				consumerService.getListConsumerEntity(brandDto.getConsumers())
-				);
+				consumerService.getListConsumerEntity(brandDto.getConsumers()),
+				priceService.getPriceEntity(brandDto.getPrice())		
+			);
 	}
 	
 	private BrandResponse getBrandResponse(BrandEntity brandEntity) {
@@ -90,7 +93,8 @@ public class BrandServiceImpl implements BrandService{
 				categories,
 				subcategories,
 				labels,
-				consumers
+				consumers,
+				brandEntity.getPrice().getPriceRange()
 		);
 	}
 
@@ -112,6 +116,8 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.getSubcategories() != null) brand.get().setSubcategories(categorySubcategoryService.getListSubcategoryEntity(brandDto.getSubcategories()));
 		if(brandDto.getLabels() != null) brand.get().setLabels(labelService.getListLabelEntity(brandDto.getLabels()));
 		if(brandDto.getConsumers() != null) brand.get().setConsumers(consumerService.getListConsumerEntity(brandDto.getConsumers()));
+		
+		if(brandDto.getPrice() != null) brand.get().setPrice(priceService.getPriceEntity(brandDto.getPrice()));
 
 		brandRepository.save(brand.get());
 		

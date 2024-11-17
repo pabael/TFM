@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,7 +27,7 @@ public class BrandEntity implements Serializable {
 	private String materials;
 	private boolean crueltyFree;
 	private boolean vegan;
-	private String commitment;
+	private String commitment; 
 	private String production;
 	
 	@ManyToMany
@@ -41,11 +42,14 @@ public class BrandEntity implements Serializable {
 	@ManyToMany
 	private List<ConsumerEntity> consumers = new ArrayList<>();
 
+	@ManyToOne
+	private PriceEntity price;
+
 	public BrandEntity() {}
 
 	public BrandEntity(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
 			String commitment, String production, List<CategoryEntity> categories,
-			List<SubcategoryEntity> subcategories, List<LabelEntity> labels, List<ConsumerEntity> consumers) {
+			List<SubcategoryEntity> subcategories, List<LabelEntity> labels, List<ConsumerEntity> consumers, PriceEntity price) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -57,6 +61,7 @@ public class BrandEntity implements Serializable {
 		this.subcategories = subcategories;
 		this.labels = labels;
 		this.consumers = consumers;
+		this.price = price;
 	}
 
 	public long getId() {
@@ -153,5 +158,13 @@ public class BrandEntity implements Serializable {
 
 	public void setConsumers(List<ConsumerEntity> consumers) {
 		this.consumers = consumers;
+	}
+
+	public PriceEntity getPrice() {
+		return price;
+	}
+
+	public void setPrice(PriceEntity price) {
+		this.price = price;
 	}
 }
