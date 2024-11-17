@@ -8,13 +8,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Location")
-public class LocationEntity implements Serializable {
+@Table(name = "Province")
+public class ProvinceEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,17 +23,13 @@ public class LocationEntity implements Serializable {
 	
 	private String name;
 
-	@ManyToMany (mappedBy = "locations")
-	private List<BrandEntity> brands = new ArrayList<>();
-
-	@ManyToOne
-	private ProvinceEntity 	province;
+	@OneToMany (mappedBy = "province")
+	private List<LocationEntity> locations = new ArrayList<>();
 	
-	public LocationEntity() {}
+	public ProvinceEntity() {}
 	
-	public LocationEntity(String name, ProvinceEntity province) {
+	public ProvinceEntity(String name) {
 		this.name = name;
-		this.province = province;
 	}
 
 	public long getId() {
@@ -53,19 +48,15 @@ public class LocationEntity implements Serializable {
 		this.name = name;
 	}
 
-	public List<BrandEntity> getBrands() {
-		return brands;
+	public List<LocationEntity> getLocations() {
+		return locations;
 	}
 
-	public void setBrands(List<BrandEntity> brands) {
-		this.brands = brands;
+	public void setLocations(List<LocationEntity> locations) {
+		this.locations = locations;
 	}
-
-	public ProvinceEntity getProvince() {
-		return province;
-	}
-
-	public void setProvince(ProvinceEntity province) {
-		this.province = province;
+	
+	public void addLocation(LocationEntity location) {
+		this.locations.add(location);
 	}
 }

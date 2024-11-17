@@ -11,7 +11,6 @@ import com.tfm.tfm.repository.PriceRepository;
 public class DataLoader {
 
 	@Bean
-
 	CommandLineRunner initDatabase (PriceRepository priceRepository){
 		return args -> {
 			if(priceRepository.count() == 0){

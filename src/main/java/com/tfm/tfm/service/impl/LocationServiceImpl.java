@@ -7,14 +7,19 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.LocationDto;
 import com.tfm.tfm.entity.LocationEntity;
+import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.response.LocationResponse;
+import com.tfm.tfm.response.PositionStackResponse;
+import com.tfm.tfm.response.PositionStackResponse.Data;
 import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LocationService;
+import com.tfm.tfm.service.ProvinceService;
 
 @Service
 public class LocationServiceImpl implements LocationService{
@@ -22,6 +27,13 @@ public class LocationServiceImpl implements LocationService{
 	@Autowired private LocationRepository locationRepository;
 
 	@Autowired private GeneralService generalService;
+	@Autowired private ProvinceService provinceService;
+	
+  private RestTemplate restTemplate;
+
+	public LocationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+  }
 
 	public LocationResponse createLocation(LocationDto locationDto) {
 		
@@ -37,7 +49,19 @@ public class LocationServiceImpl implements LocationService{
 		
 		if(locationRepository.existsByName(locationDto.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location already exists");
 		
-		return new LocationEntity(generalService.capitalizeFirstLetter(locationDto.getName()));
+        Data data = consultPositionStack(locationDto.getName());
+
+        ProvinceEntity provinceEntity = provinceService.getProvinceEntity(data.getRegion());
+        
+		return new LocationEntity(generalService.capitalizeFirstLetter(locationDto.getName()), provinceEntity);
+	}
+	
+	private Data consultPositionStack(String location) {
+        String url = "https://api.positionstack.com/v1/forward?access_key=a3ba8afb1483f954fd32a732b4d3101e&query=" + location + "&country=ES";
+        PositionStackResponse response = restTemplate.getForObject(url, PositionStackResponse.class);
+        
+        if (response == null || response.getData() == null || response.getData().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no data for the location.");
+        return response.getData().get(0);
 	}
 
 	private LocationEntity getLocationEntity(LocationDto locationDto) {
@@ -50,9 +74,8 @@ public class LocationServiceImpl implements LocationService{
 	}
 	
 	private LocationResponse getLocationResponse(LocationEntity locationEntity) {
-		return new LocationResponse(locationEntity.getName());
+		return new LocationResponse(locationEntity.getName(), locationEntity.getProvince().getName());
 	}
-
 
 	public List<LocationEntity> getListLocationEntity(List<String> locations) {
 		List<LocationEntity> validLocations = new ArrayList<>();
