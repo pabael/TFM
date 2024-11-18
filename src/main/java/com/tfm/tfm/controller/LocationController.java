@@ -32,18 +32,4 @@ public class LocationController {
 	public LocationResponse create(@RequestBody @Valid LocationDto locationDto) {
 		return locationService.createLocation(locationDto);
 	}
-
-	@DeleteMapping("/location")
-	@Operation(summary = "Delete location information", 
-    description = "Delete location giving Name.")
-
-		@ApiResponses(value = { 
-				@ApiResponse(responseCode = "200", 
-					description = "${api.response-codes.ok.desc}"),
-				@ApiResponse(responseCode = "400", 
-		            description = "${api.response-codes.badRequest.desc}")
-		})
-	public void delete(@RequestBody @Valid LocationDto locationDto) {
-		locationService.deleteLocation(locationDto);
-	}
 }

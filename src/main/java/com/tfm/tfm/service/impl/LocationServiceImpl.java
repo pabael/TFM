@@ -17,8 +17,6 @@ import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.repository.ProvinceRepository;
 import com.tfm.tfm.response.LocationResponse;
-import com.tfm.tfm.response.PositionStackResponse;
-import com.tfm.tfm.response.PositionStackResponse.Data;
 import com.tfm.tfm.service.AutonomousCommunityService;
 import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LocationService;
@@ -42,51 +40,32 @@ public class LocationServiceImpl implements LocationService{
 
 	public LocationResponse createLocation(LocationDto locationDto) {
 		
-		LocationEntity locationEntity = getNewLocationEntity(locationDto);
-		
-		locationRepository.save(locationEntity);
-		
+		LocationEntity locationEntity = getLocationEntity(locationDto);
+				
 		return getLocationResponse(locationEntity);
-		
-	}
-	
-	private LocationEntity getNewLocationEntity(LocationDto locationDto) {
-		
-		if(locationRepository.existsByName(locationDto.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location already exists");
-		
-        Data data = consultPositionStack(locationDto.getName());
-
-        ProvinceEntity provinceEntity = provinceService.getProvinceEntity(data.getRegion());
-				AutonomousCommunityEntity autonomousCommunityEntity = autonomousCommunityService.getAutonomousCommunityEntity(data.getRegion_code());
-
-				LocationEntity locationEntity = new LocationEntity(generalService.capitalizeFirstLetter(locationDto.getName()));
-				
-				provinceEntity.addLocation(locationEntity);
-				provinceEntity.setAutonomousCommunity(autonomousCommunityEntity);
-
-				locationEntity.setProvince(provinceEntity);
-				
-				provinceRepository.save(provinceEntity);
-				locationRepository.save(locationEntity);
-        
-		return locationEntity;
-	}
-	
-	private Data consultPositionStack(String location) {
-        String url = "https://api.positionstack.com/v1/forward?access_key=a3ba8afb1483f954fd32a732b4d3101e&query=" + location + "&country=ES";
-        PositionStackResponse response = restTemplate.getForObject(url, PositionStackResponse.class);
-        
-        if (response == null || response.getData() == null || response.getData().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no data for the location.");
-        return response.getData().get(0);
 	}
 
 	private LocationEntity getLocationEntity(LocationDto locationDto) {
 		
 		Optional <LocationEntity> locationEntity = locationRepository.findByName(locationDto.getName());
 
-		if(locationEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location does not exist");
+		if(locationEntity.isEmpty()) return getNewLocationEntity(locationDto);
 		
 		return locationEntity.get();
+	}
+
+	private LocationEntity getNewLocationEntity(LocationDto locationDto) {
+				
+		ProvinceEntity provinceEntity = provinceService.getProvinceEntity(locationDto.getProvince());
+				
+		LocationEntity locationEntity = new LocationEntity(locationDto.getName(), provinceEntity);
+				
+		provinceEntity.addLocation(locationEntity);
+				
+		provinceRepository.save(provinceEntity);
+		locationRepository.save(locationEntity);
+        
+		return locationEntity;
 	}
 	
 	private LocationResponse getLocationResponse(LocationEntity locationEntity) {
@@ -103,15 +82,6 @@ public class LocationServiceImpl implements LocationService{
 		});
 		
 		return validLocations;
-	}
-
-	public	void deleteLocation(LocationDto locationDto){
-	
-		Optional<LocationEntity> location = locationRepository.findByName(locationDto.getName());
-		
-		if(location.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location does not exist");
-		
-		locationRepository.delete(location.get());
 	}
 
 }

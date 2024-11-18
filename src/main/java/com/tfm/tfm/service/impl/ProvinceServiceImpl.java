@@ -1,10 +1,13 @@
 package com.tfm.tfm.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.AutonomousCommunityDto;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
@@ -36,6 +39,15 @@ public class ProvinceServiceImpl implements ProvinceService{
 		AutonomousCommunityEntity autonomousCommunityEntity = autonomousCommunityService.getAutonomousCommunityEntity(autonomousCommunityDto.getName());
 
 		return provinceRepository.findByAutonomousCommunity(autonomousCommunityEntity);
+	}
+
+	public ProvinceEntity getProvinceEntity(String name){
+		Optional<ProvinceEntity> provinceEntity = provinceRepository.findByName(name);
+
+		//This should not happend
+		if(provinceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Province dos not exist");
+
+		return provinceEntity.get();
 	}
 
 }

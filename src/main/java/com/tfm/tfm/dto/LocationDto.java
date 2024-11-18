@@ -13,11 +13,15 @@ public class LocationDto implements Serializable {
 	@NotNull
 	private String name;
 
+	@Schema(name="province", example="Zaragoza")
+	@NotNull
+	private String province;
 
 	public LocationDto() {}
 	
-	public LocationDto(@NotNull String name) {
+	public LocationDto(@NotNull String name, @NotNull String province) {
 		this.name = name;
+		this.province = province;
 	}
 
 	public String getName() {
@@ -26,5 +30,13 @@ public class LocationDto implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
 	}
 }

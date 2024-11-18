@@ -12,8 +12,6 @@ public interface LocationService {
 			
 	LocationResponse createLocation(LocationDto locationDto);
 
-	void deleteLocation(LocationDto locationDto);
-
 	List<LocationEntity> getListLocationEntity(List<String> locations);
 
 }
