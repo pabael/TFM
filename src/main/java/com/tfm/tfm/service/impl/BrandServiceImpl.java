@@ -64,7 +64,7 @@ public class BrandServiceImpl implements BrandService{
 			);
 	}
 	
-	private BrandResponse getBrandResponse(BrandEntity brandEntity) {
+	public BrandResponse getBrandResponse(BrandEntity brandEntity) {
 		List<String> categories = new ArrayList<>();
 		brandEntity.getCategories().forEach(category -> {
 			categories.add(category.getName());

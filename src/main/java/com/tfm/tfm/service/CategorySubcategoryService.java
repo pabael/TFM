@@ -5,6 +5,7 @@ import java.util.List;
 import com.tfm.tfm.dto.CategoryDto;
 import com.tfm.tfm.dto.CategorySubcategoryDto;
 import com.tfm.tfm.dto.SubcategoryDto;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.CategoryEntity;
 import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.response.CategoryResponse;
@@ -24,4 +25,5 @@ public interface CategorySubcategoryService {
 	CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);	
 	void deleteRelationship(CategorySubcategoryDto catSubDto);
 
+	List<BrandEntity> getBrandsByCategory(String category);
 }

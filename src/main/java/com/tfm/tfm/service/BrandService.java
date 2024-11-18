@@ -1,6 +1,7 @@
 package com.tfm.tfm.service;
 
 import com.tfm.tfm.dto.BrandDto;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.response.BrandResponse;
 
 public interface BrandService {
@@ -11,4 +12,5 @@ public interface BrandService {
 
 	void deleteBrand(String brandName);
 
+	BrandResponse getBrandResponse(BrandEntity brandEntity);
 }
