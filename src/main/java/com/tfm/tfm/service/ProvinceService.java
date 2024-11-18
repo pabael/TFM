@@ -1,10 +1,12 @@
 package com.tfm.tfm.service;
 
-import com.tfm.tfm.entity.ProvinceEntity;
+import java.util.List;
+
+import com.tfm.tfm.dto.AutonomousCommunityDto;
+import com.tfm.tfm.response.ProvinceResponse;
 
 public interface ProvinceService {
 		
-	ProvinceEntity createProvince(String name);
+	List<ProvinceResponse> getProvinceList(AutonomousCommunityDto autonomousCommunityDto);
 
-	ProvinceEntity getProvinceEntity(String name);
 }

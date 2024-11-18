@@ -16,11 +16,8 @@ import jakarta.persistence.Table;
 @Table(name = "Province")
 public class ProvinceEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private String id;
 	
 	private String name;
 
@@ -32,20 +29,17 @@ public class ProvinceEntity implements Serializable {
 	
 	public ProvinceEntity() {}
 	
-	public ProvinceEntity(String name, AutonomousCommunityEntity autonomousCommunity) {
+	public ProvinceEntity(String id, String name, AutonomousCommunityEntity autonomousCommunity) {
+		this.id = id;
 		this.name = name;
 		this.autonomousCommunity= autonomousCommunity;
 	}
 
-	public ProvinceEntity(String name) {
-		this.name = name;
-	}
-
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
