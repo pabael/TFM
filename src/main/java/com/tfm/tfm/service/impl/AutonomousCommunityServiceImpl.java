@@ -1,14 +1,18 @@
 package com.tfm.tfm.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.tfm.tfm.dto.AutonomousCommunityDto;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
 import com.tfm.tfm.repository.AutonomousCommunityRepository;
+import com.tfm.tfm.response.AutonomousCommunityResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
 
 @Service
@@ -16,10 +20,21 @@ public class AutonomousCommunityServiceImpl implements AutonomousCommunityServic
 
 	@Autowired private AutonomousCommunityRepository autonomousCommunityRepository;
 
-	public AutonomousCommunityEntity getAutonomousCommunityEntity(String region_code) {
+	public List<AutonomousCommunityResponse> getAutonomousCommunityList(){
 		
-		String name = getName(region_code);
+		List<AutonomousCommunityEntity> listEntity = autonomousCommunityRepository.findAll();
 
+		return listEntity.stream()
+			.map(entity -> new AutonomousCommunityResponse(entity.getName()))
+			.collect(Collectors.toList()); 
+	}
+
+	public List<AutonomousCommunityEntity> getAutonomousCommunityEntityList (){
+		return autonomousCommunityRepository.findAll();
+	}
+
+	public AutonomousCommunityEntity getAutonomousCommunityEntity(String name) {
+		
 		Optional <AutonomousCommunityEntity> autonomousCommunityEntity = autonomousCommunityRepository.findByName(name);
 
 		//This should not happend
@@ -28,71 +43,4 @@ public class AutonomousCommunityServiceImpl implements AutonomousCommunityServic
 		return autonomousCommunityEntity.get();
 	}
 
-	private String getName(String region_code){
-		String autonomousCommunity = "";
-		switch (region_code) {
-				case "AN":
-						autonomousCommunity = "Andalucía";
-						break;
-				case "AR":
-						autonomousCommunity = "Aragón";
-						break;
-				case "AS":
-						autonomousCommunity = "Asturias";
-						break;
-				case "PM":
-						autonomousCommunity = "Islas Baleares";
-						break;
-				case "CN":
-						autonomousCommunity = "Canarias";
-						break;
-				case "CB":
-						autonomousCommunity = "Cantabria";
-						break;
-				case "CL":
-						autonomousCommunity = "Castilla y León";
-						break;
-				case "CM":
-						autonomousCommunity = "Castilla-La Mancha";
-						break;
-				case "CT":
-						autonomousCommunity = "Cataluña";
-						break;
-				case "VC":
-						autonomousCommunity = "Comunidad Valenciana";
-						break;
-				case "EX":
-						autonomousCommunity = "Extremadura";
-						break;
-				case "GA":
-						autonomousCommunity = "Galicia";
-						break;
-				case "MD":
-						autonomousCommunity = "Madrid";
-						break;
-				case "MC":
-						autonomousCommunity = "Murcia";
-						break;
-				case "NC":
-						autonomousCommunity = "Navarra";
-						break;
-				case "PV":
-						autonomousCommunity = "País Vasco";
-						break;
-				case "LO":
-						autonomousCommunity = "La Rioja";
-						break;
-				case "CE":
-						autonomousCommunity = "Ceuta";
-						break;
-				case "ML":
-						autonomousCommunity = "Melilla";
-						break;
-				default:
-						autonomousCommunity = "Código no válido";
-						break;
-		}
-			
-		return autonomousCommunity;
-	}
 }

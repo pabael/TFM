@@ -15,28 +15,26 @@ import jakarta.persistence.Table;
 @Table(name = "AutonomousCommunity")
 public class AutonomousCommunityEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	private String name ;
+	private String id;
 
+	private String name ;
+	 
 	@OneToMany (mappedBy = "autonomousCommunity")
 	private List<ProvinceEntity> provinces = new ArrayList<>();
 	
 	public AutonomousCommunityEntity() {}
 	
-	public AutonomousCommunityEntity(String name ) {
-		this.name  = name ;
+	public AutonomousCommunityEntity(String id, String name) {
+		this.id = id;
+		this.name  = name;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
