@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,9 +26,17 @@ public class ProvinceEntity implements Serializable {
 
 	@OneToMany (mappedBy = "province")
 	private List<LocationEntity> locations = new ArrayList<>();
+
+	@ManyToOne
+	private AutonomousCommunityEntity autonomousCommunity;
 	
 	public ProvinceEntity() {}
 	
+	public ProvinceEntity(String name, AutonomousCommunityEntity autonomousCommunity) {
+		this.name = name;
+		this.autonomousCommunity= autonomousCommunity;
+	}
+
 	public ProvinceEntity(String name) {
 		this.name = name;
 	}
@@ -58,5 +67,13 @@ public class ProvinceEntity implements Serializable {
 	
 	public void addLocation(LocationEntity location) {
 		this.locations.add(location);
+	}
+
+	public AutonomousCommunityEntity getAutonomousCommunity() {
+		return autonomousCommunity;
+	}
+
+	public void setAutonomousCommunity(AutonomousCommunityEntity autonomousCommunity) {
+		this.autonomousCommunity = autonomousCommunity;
 	}
 }

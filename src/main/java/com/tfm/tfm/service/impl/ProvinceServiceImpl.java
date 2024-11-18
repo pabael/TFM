@@ -20,6 +20,9 @@ public class ProvinceServiceImpl implements ProvinceService{
 	@Autowired private GeneralService generalService;
 
 	public ProvinceEntity createProvince(String name) {
+
+		if(name.equals("Balearic Islands")) name = "Islas Baleares";
+		if(name.equals("Biscay")) name = "País Vasco";
 		
 		if(provinceRepository.existsByName(name)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Province already exists");
 
@@ -43,4 +46,5 @@ public class ProvinceServiceImpl implements ProvinceService{
 		
 		return provinceEntity;
 	}
+
 }
