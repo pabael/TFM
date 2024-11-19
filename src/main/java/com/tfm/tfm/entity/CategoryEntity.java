@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,7 +28,7 @@ public class CategoryEntity implements Serializable {
 	@ManyToMany (mappedBy = "categories")
 	private List<BrandEntity> brands = new ArrayList<>();
 	
-	@ManyToMany (cascade = CascadeType.ALL)
+	@OneToMany (cascade = CascadeType.ALL, mappedBy = "category")
 	private List<SubcategoryEntity> subcategories = new ArrayList<>();
 	
 	public CategoryEntity() {}
@@ -75,11 +76,9 @@ public class CategoryEntity implements Serializable {
 	
 	public void addSubcategory(SubcategoryEntity subcategory) {
 		this.subcategories.add(subcategory);
-		subcategory.addCategory(this);
 	}
 	
 	public void deleteSubcategory(SubcategoryEntity subcategory) {
 		this.subcategories.remove(subcategory);
-		subcategory.deleteCategory(this);
 	}
 }

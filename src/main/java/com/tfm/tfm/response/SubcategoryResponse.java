@@ -1,12 +1,9 @@
 package com.tfm.tfm.response;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SubcategoryResponse {
 	
 	private String name;
-	private List<String> categories = new ArrayList<>();
+	private String category;
 
 	public SubcategoryResponse() {}
 	
@@ -14,9 +11,9 @@ public class SubcategoryResponse {
 		this.name = name;
 	}
 	
-	public SubcategoryResponse(String name, List<String> categories) {
+	public SubcategoryResponse(String name, String category) {
 		this.name = name;
-		this.categories = categories;
+		this.category = category;
 	}
 
 	public String getName() {
@@ -27,11 +24,11 @@ public class SubcategoryResponse {
 		this.name = name;
 	}
 	
-	public List<String> getCategories() {
-		return categories;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

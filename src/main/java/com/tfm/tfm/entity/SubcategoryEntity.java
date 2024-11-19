@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,24 +27,20 @@ public class SubcategoryEntity implements Serializable {
 	@ManyToMany (mappedBy = "subcategories")
 	private List<BrandEntity> brands = new ArrayList<>();
 
-	@ManyToMany (mappedBy = "subcategories")
-    private List<CategoryEntity> categories = new ArrayList<>();
+	@ManyToOne
+	private CategoryEntity category;
 	
 	public SubcategoryEntity() {}
-	
-	public SubcategoryEntity(String name) {
+		
+	public SubcategoryEntity(String name, CategoryEntity category) {
 		this.name = name;
+		this.category = category;
 	}
 	
-	public SubcategoryEntity(String name, List<CategoryEntity> categories) {
-		this.name = name;
-		this.categories = categories;
-	}
-	
-	public SubcategoryEntity(String name, List<BrandEntity> brands, List<CategoryEntity> categories) {
+	public SubcategoryEntity(String name, List<BrandEntity> brands, CategoryEntity category) {
 		this.name = name;
 		this.brands = brands;
-		this.categories = categories;
+		this.category = category;
 	}
 
 	public long getId() {
@@ -70,19 +67,11 @@ public class SubcategoryEntity implements Serializable {
 		this.brands = brands;
 	}
 
-	public List<CategoryEntity> getCategories() {
-		return categories;
+	public CategoryEntity getCategory() {
+		return category;
 	}
 
-	public void setCategories(List<CategoryEntity> categories) {
-		this.categories = categories;
-	}
-	
-	public void addCategory(CategoryEntity category) {
-		this.categories.add(category);
-	}
-	
-	public void deleteCategory(CategoryEntity category) {
-		this.categories.removeIf(cat -> cat.equals(category));
+	public void setCategory(CategoryEntity category) {
+		this.category = category;
 	}
 }

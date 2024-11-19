@@ -11,19 +11,14 @@ import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.response.CategoryResponse;
 import com.tfm.tfm.response.SubcategoryResponse;
 
-public interface CategorySubcategoryService {
+public interface CategoryService {
 		
 	CategoryResponse createCategory(CategoryDto categoryDto);
 	void deleteCategory(CategoryDto categoryDto);
 
-	SubcategoryResponse createSubcategory(SubcategoryDto subcategoryDto);
-	void deleteSubcategory(SubcategoryDto subcategoryDto);
+	CategoryEntity getCategoryEntity(String category);
 
 	List<CategoryEntity> getListCategoryEntity(List<String> categories);
-	List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories);
-
-	CategoryResponse assignSubcategoryToCategory(CategorySubcategoryDto catSubDto);	
-	void deleteRelationship(CategorySubcategoryDto catSubDto);
 
 	List<BrandEntity> getBrandsByCategory(String category);
 }
