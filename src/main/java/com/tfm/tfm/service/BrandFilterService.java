@@ -16,4 +16,5 @@ public interface BrandFilterService {
 
 	List<BrandResponse> getBrandsByLocation(String location);
 
+	List<BrandResponse> getBrandsByProvince(String province);
 }

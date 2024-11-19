@@ -15,6 +15,7 @@ import com.tfm.tfm.service.ConsumerService;
 import com.tfm.tfm.service.LabelService;
 import com.tfm.tfm.service.LocationService;
 import com.tfm.tfm.service.PriceService;
+import com.tfm.tfm.service.ProvinceService;
 
 @Service
 public class BrandFilterServiceImpl implements BrandFilterService{
@@ -25,6 +26,7 @@ public class BrandFilterServiceImpl implements BrandFilterService{
   @Autowired private ConsumerService consumerService;
   @Autowired private PriceService priceService;
   @Autowired private LocationService locationService;
+  @Autowired private ProvinceService provinceService;
 
   public List<BrandResponse> getBrandsByCategory(String category){
     List<BrandEntity> brandEntityList = categorySubcategoryService.getBrandsByCategory(category);
@@ -48,6 +50,11 @@ public class BrandFilterServiceImpl implements BrandFilterService{
 
   public	List<BrandResponse> getBrandsByLocation(String location){
     List<BrandEntity> brandEntityList = locationService.getBrandsByLocation(location);
+    return getBrandResponseList(brandEntityList);
+  }
+
+  public	List<BrandResponse> getBrandsByProvince(String province){
+    List<BrandEntity> brandEntityList = provinceService.getBrandsByProvince(province);
     return getBrandResponseList(brandEntityList);
   }
 

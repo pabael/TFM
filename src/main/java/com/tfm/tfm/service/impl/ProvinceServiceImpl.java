@@ -1,7 +1,9 @@
 package com.tfm.tfm.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.AutonomousCommunityDto;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
+import com.tfm.tfm.entity.BrandEntity;
+import com.tfm.tfm.entity.LocationEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.ProvinceRepository;
 import com.tfm.tfm.response.ProvinceResponse;
@@ -48,6 +52,22 @@ public class ProvinceServiceImpl implements ProvinceService{
 		if(provinceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Province dos not exist");
 
 		return provinceEntity.get();
+	}
+
+	public List<BrandEntity> getBrandsByProvince(String province){
+		Optional<ProvinceEntity> provinceEntity = provinceRepository.findByName(province);
+
+		if(provinceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No brands");
+		
+		List<LocationEntity> locations = provinceEntity.get().getLocations();
+
+		Set<BrandEntity> brands = new HashSet<>();
+
+    for (LocationEntity location : locations) {
+      brands.addAll(location.getBrands());
+    }
+
+    return brands.stream().collect(Collectors.toList());
 	}
 
 }
