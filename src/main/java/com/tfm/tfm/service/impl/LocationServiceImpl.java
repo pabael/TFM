@@ -16,6 +16,7 @@ import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.repository.ProvinceRepository;
 import com.tfm.tfm.response.LocationResponse;
+import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LocationService;
 import com.tfm.tfm.service.ProvinceService;
 
@@ -26,6 +27,7 @@ public class LocationServiceImpl implements LocationService{
 	@Autowired private ProvinceRepository provinceRepository;
 
 	@Autowired private ProvinceService provinceService;
+	@Autowired private GeneralService generalService;
 
 	public LocationResponse createLocation(LocationDto locationDto) {
 		
@@ -33,7 +35,7 @@ public class LocationServiceImpl implements LocationService{
 
 		LocationEntity locationEntity = getNewLocationEntity(locationDto);
 				
-		return  new LocationResponse(locationEntity.getName(), 
+		return  new LocationResponse(generalService.capitalizeFirstLetter(locationEntity.getName()), 
 																locationEntity.getProvince().getName(), 
 																locationEntity.getProvince().getAutonomousCommunity().getName());
 	}
