@@ -11,6 +11,8 @@ public interface LocationService {
 			
 	LocationResponse createLocation(LocationDto locationDto);
 
+	List<LocationResponse> getLocationList(String province);
+
 	List<LocationEntity> getListLocationEntity(List<String> locations);
 
 	List<BrandEntity> getBrandsByLocation(String location);

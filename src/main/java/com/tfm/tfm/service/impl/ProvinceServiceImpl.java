@@ -35,10 +35,9 @@ public class ProvinceServiceImpl implements ProvinceService{
 		return listDto.stream()
 			.map(entity -> new ProvinceResponse(entity.getName()))
 			.collect(Collectors.toList()); 
-
 	}
 
-	public List<ProvinceEntity> getProvinceEntityList(AutonomousCommunityDto autonomousCommunityDto){
+	private List<ProvinceEntity> getProvinceEntityList(AutonomousCommunityDto autonomousCommunityDto){
 	
 		AutonomousCommunityEntity autonomousCommunityEntity = autonomousCommunityService.getAutonomousCommunityEntity(autonomousCommunityDto.getName());
 

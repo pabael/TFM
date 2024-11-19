@@ -63,6 +63,7 @@ public class DataLoader {
 				autonomousCommunityEntityList.forEach(entity -> {
 						String url = "https://apiv1.geoapi.es/provincias?CCOM="+ entity.getId() +"&key=9efacab313037b4efce2bc81020e658e8c6e6c7661d3f6b145c37064de2b43fc&type=JSON";
 						GeoApiProvinceResponse response = restTemplate.getForObject(url, GeoApiProvinceResponse.class);
+						
 						if (response == null || response.getData() == null || response.getData().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is any AC.");
 						List<ProvinceEntity> provinces = response.getData()
 							.stream()

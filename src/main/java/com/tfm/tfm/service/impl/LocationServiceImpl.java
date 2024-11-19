@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.LocationDto;
@@ -15,8 +16,8 @@ import com.tfm.tfm.entity.LocationEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.repository.ProvinceRepository;
+import com.tfm.tfm.response.GeoApiLocationResponse;
 import com.tfm.tfm.response.LocationResponse;
-import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LocationService;
 import com.tfm.tfm.service.ProvinceService;
 
@@ -27,19 +28,22 @@ public class LocationServiceImpl implements LocationService{
 	@Autowired private ProvinceRepository provinceRepository;
 
 	@Autowired private ProvinceService provinceService;
-	@Autowired private GeneralService generalService;
+	
+ 	private RestTemplate restTemplate;
+
+	public LocationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+  }
 
 	public LocationResponse createLocation(LocationDto locationDto) {
-		
-		if(locationRepository.findByName(locationDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location already exists");
 
-		LocationEntity locationEntity = getNewLocationEntity(locationDto);
+		Optional<LocationEntity> locationEntity = locationRepository.findByName(locationDto.getName());
+		if(locationEntity.isPresent()) return getLocationResponse(locationEntity.get());
+
+		LocationEntity newLocationEntity = getNewLocationEntity(locationDto);
 				
-		return  new LocationResponse(generalService.capitalizeFirstLetter(locationEntity.getName()), 
-																locationEntity.getProvince().getName(), 
-																locationEntity.getProvince().getAutonomousCommunity().getName());
+		return getLocationResponse(newLocationEntity);
 	}
-
 
 	private LocationEntity getNewLocationEntity(LocationDto locationDto) {
 				
@@ -55,13 +59,35 @@ public class LocationServiceImpl implements LocationService{
 		return locationEntity;
 	}
 
+	private LocationResponse getLocationResponse(LocationEntity locationEntity){
+		return  new LocationResponse(
+			locationEntity.getName(), 
+			locationEntity.getProvince().getName(), 
+			locationEntity.getProvince().getAutonomousCommunity().getName());
+	}
+
+	public	List<LocationResponse> getLocationList(String province){
+
+		ProvinceEntity provinceEntity = provinceService.getProvinceEntity(province);
+
+		String url = "https://apiv1.geoapi.es/municipios?CPRO="+ provinceEntity.getId() +"&key=9efacab313037b4efce2bc81020e658e8c6e6c7661d3f6b145c37064de2b43fc&type=JSON";
+		GeoApiLocationResponse response = restTemplate.getForObject(url, GeoApiLocationResponse.class);
+
+		if (response == null || response.getData() == null || response.getData().isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is any location.");
+
+		return response.getData()
+							.stream()
+							.map(apiLocation -> new LocationResponse(apiLocation.getName()))
+							.collect(Collectors.toList());
+	}
+
 	public List<LocationEntity> getListLocationEntity(List<String> locations) {
 
 		return locations.stream()
-    .map(location -> locationRepository.findByName(location))
-    .filter(Optional::isPresent)
-    .map(Optional::get)
-    .collect(Collectors.toList());
+			.map(location -> locationRepository.findByName(location))
+			.filter(Optional::isPresent)
+			.map(Optional::get)
+			.collect(Collectors.toList());
 	}
 
 	public List<BrandEntity> getBrandsByLocation(String location){

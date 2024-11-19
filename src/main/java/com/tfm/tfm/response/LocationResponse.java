@@ -7,6 +7,10 @@ public class LocationResponse {
 	private String autonomousCommunity;
 
 	public LocationResponse() {}
+
+	public LocationResponse(String name) {
+		this.name = name;
+	}
 	
 	public LocationResponse(String name, String province, String autonomousCommunity) {
 		this.name = name;

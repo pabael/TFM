@@ -1,8 +1,12 @@
 package com.tfm.tfm.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfm.tfm.dto.LocationDto;
@@ -17,6 +21,19 @@ import jakarta.validation.Valid;
 @RestController
 public class LocationController {
 	@Autowired private LocationService locationService;
+
+	@GetMapping("/locations")
+	@Operation(summary = "Get all locations of a province")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<LocationResponse> getAll(@RequestParam String Province) {
+		return locationService.getLocationList(Province);
+	}
 
 	@PostMapping("/location")
 	@Operation(summary = "Create new location", 

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfm.tfm.dto.BrandDto;
@@ -12,7 +13,6 @@ import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -59,7 +59,7 @@ public class BrandController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public void delete(@RequestBody @Valid @Schema(example = "\"clotsy\"") String brandName) {
+	public void delete(@RequestParam String brandName) {
 		brandService.deleteBrand(brandName);
 	}
 }
