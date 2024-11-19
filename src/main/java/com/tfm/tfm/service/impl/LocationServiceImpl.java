@@ -1,8 +1,8 @@
 package com.tfm.tfm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,22 +27,17 @@ public class LocationServiceImpl implements LocationService{
 
 	@Autowired private ProvinceService provinceService;
 
-
 	public LocationResponse createLocation(LocationDto locationDto) {
 		
-		LocationEntity locationEntity = getLocationEntity(locationDto);
+		if(locationRepository.findByName(locationDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location already exists");
+
+		LocationEntity locationEntity = getNewLocationEntity(locationDto);
 				
-		return getLocationResponse(locationEntity);
+		return  new LocationResponse(locationEntity.getName(), 
+																locationEntity.getProvince().getName(), 
+																locationEntity.getProvince().getAutonomousCommunity().getName());
 	}
 
-	private LocationEntity getLocationEntity(LocationDto locationDto) {
-		
-		Optional <LocationEntity> locationEntity = locationRepository.findByName(locationDto.getName());
-
-		if(locationEntity.isEmpty()) return getNewLocationEntity(locationDto);
-		
-		return locationEntity.get();
-	}
 
 	private LocationEntity getNewLocationEntity(LocationDto locationDto) {
 				
@@ -57,24 +52,18 @@ public class LocationServiceImpl implements LocationService{
         
 		return locationEntity;
 	}
-	
-	private LocationResponse getLocationResponse(LocationEntity locationEntity) {
-		return new LocationResponse(locationEntity.getName(), locationEntity.getProvince().getName(), locationEntity.getProvince().getAutonomousCommunity().getName());
-	}
 
 	public List<LocationEntity> getListLocationEntity(List<String> locations) {
-		List<LocationEntity> validLocations = new ArrayList<>();
 
-		locations.forEach(location -> {
-			var locationEntity = locationRepository.findByName(location);
-			if(locationEntity.isPresent()) 
-				validLocations.add(locationEntity.get());
-		});
-		
-		return validLocations;
+		return locations.stream()
+    .map(location -> locationRepository.findByName(location))
+    .filter(Optional::isPresent)
+    .map(Optional::get)
+    .collect(Collectors.toList());
 	}
 
 	public List<BrandEntity> getBrandsByLocation(String location){
+		
 		Optional<LocationEntity> locationEntity = locationRepository.findByName(location);
 
 		if(locationEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location does not exist");

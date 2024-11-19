@@ -1,8 +1,7 @@
 package com.tfm.tfm.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.BrandDto;
 import com.tfm.tfm.entity.BrandEntity;
+import com.tfm.tfm.entity.CategoryEntity;
+import com.tfm.tfm.entity.ConsumerEntity;
+import com.tfm.tfm.entity.LabelEntity;
+import com.tfm.tfm.entity.LocationEntity;
+import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.repository.BrandRepository;
 import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandService;
@@ -35,7 +39,7 @@ public class BrandServiceImpl implements BrandService{
 
 	public BrandResponse createBrand(BrandDto brandDto) {
 		
-		BrandEntity brandEntity = getBrandEntity(brandDto);
+		BrandEntity brandEntity = getNewBrandEntity(brandDto);
 		
 		brandRepository.save(brandEntity);
 		
@@ -43,9 +47,9 @@ public class BrandServiceImpl implements BrandService{
 		
 	}
 	
-	private BrandEntity getBrandEntity(BrandDto brandDto) {
+	private BrandEntity getNewBrandEntity(BrandDto brandDto) {
 		
-		if(!brandRepository.findByName(brandDto.getName()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand already exists");
+		if(brandRepository.findByName(brandDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand already exists");
 
 		return new BrandEntity(
 				generalService.capitalizeFirstLetter(brandDto.getName()), 
@@ -65,31 +69,6 @@ public class BrandServiceImpl implements BrandService{
 	}
 	
 	public BrandResponse getBrandResponse(BrandEntity brandEntity) {
-		List<String> categories = new ArrayList<>();
-		brandEntity.getCategories().forEach(category -> {
-			categories.add(category.getName());
-		});
-		
-		List<String> subcategories = new ArrayList<>();
-		brandEntity.getSubcategories().forEach(subcategory -> {
-			subcategories.add(subcategory.getName());
-		});
-
-		List<String> labels = new ArrayList<>();
-		brandEntity.getLabels().forEach(label -> {
-			labels.add(label.getName());
-		});
-
-		List<String> consumers = new ArrayList<>();
-		brandEntity.getConsumers().forEach(consumer -> {
-			consumers.add(consumer.getType());
-		});
-
-		List<String> locations = new ArrayList<>();
-		brandEntity.getLocations().forEach(location -> {
-			locations.add(location.getName());
-		});
-		
 		return new BrandResponse(
 				brandEntity.getName(), 
 				brandEntity.getSummary(),
@@ -98,12 +77,12 @@ public class BrandServiceImpl implements BrandService{
 				brandEntity.isVegan(),
 				brandEntity.getCommitment(),
 				brandEntity.getProduction(),
-				categories,
-				subcategories,
-				labels,
-				consumers,
+				brandEntity.getCategories().stream().map(CategoryEntity::getName).collect(Collectors.toList()),
+				brandEntity.getSubcategories().stream().map(SubcategoryEntity::getName).collect(Collectors.toList()),
+				brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
+				brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
 				brandEntity.getPrice().getPriceRange(),
-				locations
+				brandEntity.getLocations().stream().map(LocationEntity::getName).collect(Collectors.toList())
 		);
 	}
 
@@ -111,7 +90,7 @@ public class BrandServiceImpl implements BrandService{
 	
 		Optional<BrandEntity> brand = brandRepository.findByName(brandDto.getName());
 		
-		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand does not exist");
+		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand does not exist");
 		
 		if(brandDto.getName() != null) brand.get().setName(generalService.capitalizeFirstLetter(brandDto.getName()));
 		if(brandDto.getSummary() != null) brand.get().setSummary(brandDto.getSummary());
@@ -139,7 +118,7 @@ public class BrandServiceImpl implements BrandService{
 	
 		Optional<BrandEntity> brand = brandRepository.findByName(brandName);
 		
-		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "brand does not exist");
+		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand does not exist");
 		
 		brandRepository.delete(brand.get());
 	}

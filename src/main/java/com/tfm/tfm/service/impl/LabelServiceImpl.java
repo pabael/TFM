@@ -1,8 +1,8 @@
 package com.tfm.tfm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,36 +26,22 @@ public class LabelServiceImpl implements LabelService{
 
 	public LabelResponse createLabel(LabelDto labelDto) {
 		
-		LabelEntity labelEntity = getLabelEntity(labelDto);
+		if(labelRepository.findByName(labelDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label already exists");
+
+		LabelEntity labelEntity = new LabelEntity(generalService.capitalizeFirstLetter(labelDto.getName()));
 		
 		labelRepository.save(labelEntity);
 		
-		return getLabelResponse(labelEntity);
-		
-	}
-	
-	private LabelEntity getLabelEntity(LabelDto labelDto) {
-		
-		if(labelRepository.findByName(labelDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "label already exists");
-		
-		return new LabelEntity(generalService.capitalizeFirstLetter(labelDto.getName()));
-	}
-	
-	private LabelResponse getLabelResponse(LabelEntity labelEntity) {
 		return new LabelResponse(labelEntity.getName());
 	}
-
-
+	
 	public List<LabelEntity> getListLabelEntity(List<String> labels) {
-		List<LabelEntity> validLabels = new ArrayList<>();
 
-		labels.forEach(label -> {
-			var labelEntity = labelRepository.findByName(label);
-			if(labelEntity.isPresent()) 
-				validLabels.add(labelEntity.get());
-		});
-		
-		return validLabels;
+		return labels.stream()
+    .map(label -> labelRepository.findByName(label))
+    .filter(Optional::isPresent)
+    .map(Optional::get)
+    .collect(Collectors.toList());
 	}
 
 	public	void deleteLabel(LabelDto labelDto){
@@ -68,6 +54,7 @@ public class LabelServiceImpl implements LabelService{
 	}
 
 	public 	List<BrandEntity> getBrandsByLabel(String label){
+		
 		Optional<LabelEntity> labelEntity = labelRepository.findByName(label);
 
 		if(labelEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label does not exist");

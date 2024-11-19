@@ -55,6 +55,7 @@ public class ProvinceServiceImpl implements ProvinceService{
 	}
 
 	public List<BrandEntity> getBrandsByProvince(String province){
+		
 		Optional<ProvinceEntity> provinceEntity = provinceRepository.findByName(province);
 
 		if(provinceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No brands");

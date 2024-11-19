@@ -21,7 +21,8 @@ public class PriceServiceImpl implements PriceService{
 	public PriceEntity getPriceEntity(Integer price) {
 		
 		Optional<PriceEntity> priceEntity = priceRepository.findByPriceRange(price);
-		if(priceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "price not valid");
+
+		if(priceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Price does not exist");
 
 		return priceEntity.get();
 	}

@@ -1,8 +1,8 @@
 package com.tfm.tfm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,37 +26,24 @@ public class ConsumerServiceImpl implements ConsumerService{
 	@Autowired private GeneralService generalService;
 
 	public ConsumerResponse createConsumer(ConsumerDto consumerDto) {
+
+		if(!consumerRepository.findByType(consumerDto.getType()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Consumer already exists");
 		
-		ConsumerEntity consumerEntity = getConsumerEntity(consumerDto);
+		ConsumerEntity consumerEntity = new ConsumerEntity(generalService.capitalizeFirstLetter(consumerDto.getType()));
 		
 		consumerRepository.save(consumerEntity);
 		
-		return getConsumerResponse(consumerEntity);
-		
-	}
-	
-	private ConsumerEntity getConsumerEntity(ConsumerDto consumerDto) {
-		
-		if(!consumerRepository.findByType(consumerDto.getType()).isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Consumer already exists");
-		
-		return new ConsumerEntity(generalService.capitalizeFirstLetter(consumerDto.getType()));
-	}
-	
-	private ConsumerResponse getConsumerResponse(ConsumerEntity consumerEntity) {
 		return new ConsumerResponse(consumerEntity.getType());
-	}
-
-
-	public List<ConsumerEntity> getListConsumerEntity(List<String> consumers) {
-		List<ConsumerEntity> validConsumers = new ArrayList<>();
-
-		consumers.forEach(consumer -> {
-			var consumerEntity = consumerRepository.findByType(consumer);
-			if(consumerEntity.isPresent()) 
-				validConsumers.add(consumerEntity.get());
-		});
 		
-		return validConsumers;
+	}
+	
+	public List<ConsumerEntity> getListConsumerEntity(List<String> consumers) {
+
+		return consumers.stream()
+    .map(consumer -> consumerRepository.findByType(consumer))
+    .filter(Optional::isPresent)
+    .map(Optional::get)
+    .collect(Collectors.toList());
 	}
 
 	public	void deleteConsumer(ConsumerDto consumerDto){
@@ -69,12 +56,11 @@ public class ConsumerServiceImpl implements ConsumerService{
 	}
 
 	public	List<BrandEntity> getBrandsByConsumer(String consumer){
+		
 		Optional<ConsumerEntity> consumerEntity = consumerRepository.findByType(consumer);
 
 		if(consumerEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Consumer does not exist");
 
 		return consumerEntity.get().getBrands();
 	}
-
-
 }
