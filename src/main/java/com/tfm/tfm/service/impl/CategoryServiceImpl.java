@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	public CategoryResponse createCategory(CategoryDto categoryDto) {
 		
-		if(categoryRepository.findByName(categoryDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category already exists");
+		if(categoryRepository.existsByName(categoryDto.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category already exists");
 
 		CategoryEntity categoryEntity = new CategoryEntity(generalService.capitalizeFirstLetter(categoryDto.getName()));
 		

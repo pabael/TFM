@@ -1,6 +1,7 @@
 package com.tfm.tfm.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.SubcategoryDto;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.CategoryEntity;
 import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.repository.CategoryRepository;
@@ -30,14 +32,12 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 	
 	public SubcategoryResponse createSubcategory(SubcategoryDto subcategoryDto) {
 
-		if(subcategoryRepository.findByName(subcategoryDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory already exists");
+		if(subcategoryRepository.existsByNameAndCategory_Name(subcategoryDto.getName(), subcategoryDto.getCategory())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory already exists");
 
 		CategoryEntity categoryEntity = categoryService.getCategoryEntity(subcategoryDto.getCategory());
 
 		SubcategoryEntity subcategoryEntity = new SubcategoryEntity(generalService.capitalizeFirstLetter(subcategoryDto.getName()), categoryEntity);
-		categoryEntity.addSubcategory(subcategoryEntity);
 
-		categoryRepository.save(categoryEntity);
 		subcategoryRepository.save(subcategoryEntity);
 		
 		return getSubcategoryResponse(subcategoryEntity);
@@ -51,18 +51,18 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 		return new SubcategoryResponse(subcategoryEntity.getName(), category);
 	}
 	
-	public List<SubcategoryEntity> getListSubcategoryEntity(List<String> subcategories) {
+	public List<SubcategoryEntity> getListSubcategoryEntity(List<Map<String, String>> categoriesAndSubcategories) {
 		
-		return subcategories.stream()
-    .map(subcategory -> subcategoryRepository.findByName(subcategory))
-    .filter(Optional::isPresent)
-    .map(Optional::get)
-    .collect(Collectors.toList());
+		return categoriesAndSubcategories.stream()
+		    .map(map -> subcategoryRepository.findByNameAndCategory_Name(map.get("subcategory"), map.get("category")))
+		    .filter(Optional::isPresent)
+		    .map(Optional::get)
+		    .collect(Collectors.toList());
 	}
 
 	public void deleteSubcategory(SubcategoryDto subcategoryDto){
 		
-		Optional<SubcategoryEntity> subcategory = subcategoryRepository.findByName(subcategoryDto.getName());
+		Optional<SubcategoryEntity> subcategory = subcategoryRepository.findByNameAndCategory_Name(subcategoryDto.getName(), subcategoryDto.getCategory());
 		
 		if(subcategory.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory does not exist");
 		
@@ -71,5 +71,13 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 		categoryRepository.save(categoryEntity);
 
 		subcategoryRepository.delete(subcategory.get());
+	}
+
+	public List<BrandEntity> getBrandsBySubcategory(String subcategory, String category){
+		
+		Optional<SubcategoryEntity> subcategoryEntity = subcategoryRepository.findByNameAndCategory_Name(subcategory, category);
+		if(subcategoryEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subcategory does not exist");
+
+		return subcategoryEntity.get().getBrands();
 	}
 }

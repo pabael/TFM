@@ -2,6 +2,7 @@ package com.tfm.tfm.response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BrandResponse {
 	
@@ -13,10 +14,8 @@ public class BrandResponse {
 	private String commitment;
 	private String production;
 	
-	private List<String> categories = new ArrayList<>();
+	private List<Map<String, String>> categoriesAndSubcategories;
 	
-	private List<String> subcategories = new ArrayList<>();
-
 	private List<String> labels = new ArrayList<>();
 
 	private List<String> consumers = new ArrayList<>();
@@ -28,8 +27,7 @@ public class BrandResponse {
 	public BrandResponse() {}
 	
 	public BrandResponse(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
-			String commitment, String production, List<String> categories,
-			List<String> subcategories, List<String> labels, List<String> consumers, int price, List<String> locations) {
+			String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, List<String> labels, List<String> consumers, int price, List<String> locations) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -37,8 +35,7 @@ public class BrandResponse {
 		this.vegan = vegan;
 		this.commitment = commitment;
 		this.production = production;
-		this.categories = categories;
-		this.subcategories = subcategories;
+		this.categoriesAndSubcategories = categoriesAndSubcategories;
 		this.labels = labels;
 		this.consumers = consumers;
 		this.price = price;
@@ -101,20 +98,12 @@ public class BrandResponse {
 		this.production = production;
 	}
 
-	public List<String> getCategories() {
-		return categories;
+	public List<Map<String, String>> getCategoriesAndSubcategories() {
+		return categoriesAndSubcategories;
 	}
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
-
-	public List<String> getSubcategories() {
-		return subcategories;
-	}
-
-	public void setSubcategories(List<String> subcategories) {
-		this.subcategories = subcategories;
+	public void setCategoriesAndSubcategories(List<Map<String, String>> categoriesAndSubcategories) {
+		this.categoriesAndSubcategories = categoriesAndSubcategories;
 	}
 
 	public List<String> getLabels() {

@@ -9,6 +9,7 @@ import com.tfm.tfm.entity.CategoryEntity;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, String>{
+    
     boolean existsByName(String name);
     
     Optional<CategoryEntity> findByName(String name);

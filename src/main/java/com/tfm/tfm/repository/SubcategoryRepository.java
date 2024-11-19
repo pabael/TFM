@@ -9,7 +9,8 @@ import com.tfm.tfm.entity.SubcategoryEntity;
 
 @Repository
 public interface SubcategoryRepository extends JpaRepository<SubcategoryEntity, String>{
-    boolean existsByName(String name);
+
+    boolean existsByNameAndCategory_Name(String subcategoryName, String categoryName);
     
-    Optional<SubcategoryEntity> findByName(String name);
+    Optional<SubcategoryEntity> findByNameAndCategory_Name(String subcategoryName, String categoryName);
 }

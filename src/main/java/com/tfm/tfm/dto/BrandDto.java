@@ -2,6 +2,7 @@ package com.tfm.tfm.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -32,11 +33,9 @@ public class BrandDto implements Serializable {
 	@Schema(name="production", example="Pequeños artesanos. ")
 	private String production;
 	
-	@Schema(name="categories", type="array", example="[\"ropa\", \"calzado\"]")
-	private List<String> categories;
-	
-	@Schema(name="subcategories", type="array", example="[\"pijamas\"]")
-	private List<String> subcategories;
+	@Schema(name="categoriesAndSubcategories", example = "[{\"category\":\"ropa\", \"subcategory\":\"deporte\"}, {\"category\":\"calzado\", \"subcategory\":\"deporte\"}]"
+	)
+	private List<Map<String, String>> categoriesAndSubcategories;
 
 	@Schema(name="labels", type="array", example="[\"GOTS\"]")
 	private List<String> labels;
@@ -53,8 +52,7 @@ public class BrandDto implements Serializable {
 	public BrandDto() {}
 	
 	public BrandDto(@NotNull String name, String summary, String materials, Boolean crueltyFree,
-			Boolean vegan, String commitment, String production, List<String> categories,
-			List<String> subcategories, List<String> labels, List<String> consumers, Integer price,List<String> locations) {
+			Boolean vegan, String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, List<String> labels, List<String> consumers, Integer price,List<String> locations) {
 		this.name = name;
 		this.summary = summary;
 		this.materials = materials;
@@ -62,8 +60,7 @@ public class BrandDto implements Serializable {
 		this.vegan = vegan;
 		this.commitment = commitment;
 		this.production = production;
-		this.categories = categories;
-		this.subcategories = subcategories;
+		this.categoriesAndSubcategories = categoriesAndSubcategories;
 		this.labels = labels;
 		this.consumers = consumers;
 		this.price = price;
@@ -126,20 +123,12 @@ public class BrandDto implements Serializable {
 		this.production = production;
 	}
 
-	public List<String> getCategories() {
-		return categories;
+	public List<Map<String, String>> getCategoriesAndSubcategories() {
+		return categoriesAndSubcategories;
 	}
 
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
-
-	public List<String> getSubcategories() {
-		return subcategories;
-	}
-
-	public void setSubcategories(List<String> subcategories) {
-		this.subcategories = subcategories;
+	public void setCategoriesAndSubcategories(List<Map<String, String>> categoriesAndSubcategories) {
+		this.categoriesAndSubcategories = categoriesAndSubcategories;
 	}
 
 	public List<String> getLabels() {

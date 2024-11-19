@@ -32,6 +32,19 @@ public class BrandFilterController {
 		return brandFilterService.getBrandsByCategory(category);
 	}
 
+	@GetMapping("/brands/subcategory")
+	@Operation(summary = "Get all brands from a subcategory")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getBySubcategory(@RequestParam @Valid String subcategory, String category) {
+		return brandFilterService.getBrandsBySubcategory(subcategory, category);
+	}
+
 	@GetMapping("/brands/isVegan")
 	@Operation(summary = "Get all brands from a isVegan")
 
