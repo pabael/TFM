@@ -38,6 +38,11 @@ public class BrandFilterServiceImpl implements BrandFilterService{
     return getBrandResponseList(brandEntityList);
   }
 
+  public	List<BrandResponse> getBrandsByIsVegan(boolean isVegan){
+    List<BrandEntity> brandEntityList = brandService.getBrandListIsVegan(isVegan);
+    return getBrandResponseList(brandEntityList);
+  }
+
   public List<BrandResponse> getBrandsByLabel(String label) {
     List<BrandEntity> brandEntityList = labelService.getBrandsByLabel(label);
     return getBrandResponseList(brandEntityList);

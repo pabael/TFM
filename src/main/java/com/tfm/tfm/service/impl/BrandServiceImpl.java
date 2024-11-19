@@ -1,5 +1,6 @@
 package com.tfm.tfm.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -123,4 +124,8 @@ public class BrandServiceImpl implements BrandService{
 		brandRepository.delete(brand.get());
 	}
 
+	public	List<BrandEntity> getBrandListIsVegan(boolean vegan){
+
+		return brandRepository.findByVegan(vegan);
+	}
 }

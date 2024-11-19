@@ -8,6 +8,8 @@ public interface BrandFilterService {
 		
 	List<BrandResponse> getBrandsByCategory(String category);
 
+	List<BrandResponse> getBrandsByIsVegan(boolean isVegna);
+
 	List<BrandResponse> getBrandsByLabel(String label);
 	
 	List<BrandResponse> getBrandsByConsumer(String consumer);

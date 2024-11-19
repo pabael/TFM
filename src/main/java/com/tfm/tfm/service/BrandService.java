@@ -1,5 +1,7 @@
 package com.tfm.tfm.service;
 
+import java.util.List;
+
 import com.tfm.tfm.dto.BrandDto;
 import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.response.BrandResponse;
@@ -13,4 +15,7 @@ public interface BrandService {
 	void deleteBrand(String brandName);
 
 	BrandResponse getBrandResponse(BrandEntity brandEntity);
+	
+	List<BrandEntity> getBrandListIsVegan(boolean vegan);
+
 }

@@ -1,5 +1,6 @@
 package com.tfm.tfm.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import com.tfm.tfm.entity.BrandEntity;
 public interface BrandRepository extends JpaRepository<BrandEntity, String>{
 	
 	Optional<BrandEntity> findByName(String name);
+
+	List<BrandEntity> findByVegan(boolean vegan);
 }
