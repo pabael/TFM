@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.LocationDto;
-import com.tfm.tfm.entity.AutonomousCommunityEntity;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LocationEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
@@ -82,6 +82,14 @@ public class LocationServiceImpl implements LocationService{
 		});
 		
 		return validLocations;
+	}
+
+	public List<BrandEntity> getBrandsByLocation(String location){
+		Optional<LocationEntity> locationEntity = locationRepository.findByName(location);
+
+		if(locationEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location does not exist");
+
+		return locationEntity.get().getBrands();
 	}
 
 }

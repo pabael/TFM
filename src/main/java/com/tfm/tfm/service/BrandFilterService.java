@@ -13,4 +13,7 @@ public interface BrandFilterService {
 	List<BrandResponse> getBrandsByConsumer(String consumer);
 
 	List<BrandResponse> getBrandsByPrice(Integer price);
+
+	List<BrandResponse> getBrandsByLocation(String location);
+
 }

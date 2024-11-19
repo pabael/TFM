@@ -71,4 +71,17 @@ public class BrandFilterController {
 	public List<BrandResponse> getByPrice(@RequestParam @Valid Integer price) {
 		return brandFilterService.getBrandsByPrice(price);
 	}
+
+	@GetMapping("/brands/location")
+	@Operation(summary = "Get all brands from location")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getByLocation(@RequestParam @Valid String location) {
+		return brandFilterService.getBrandsByLocation(location);
+	}
 }
