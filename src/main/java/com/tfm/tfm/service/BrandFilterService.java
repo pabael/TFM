@@ -2,7 +2,6 @@ package com.tfm.tfm.service;
 
 import java.util.List;
 
-import com.tfm.tfm.dto.CategoryDto;
 import com.tfm.tfm.response.BrandResponse;
 
 public interface BrandFilterService {
@@ -13,4 +12,5 @@ public interface BrandFilterService {
 	
 	List<BrandResponse> getBrandsByConsumer(String consumer);
 
+	List<BrandResponse> getBrandsByPrice(Integer price);
 }
