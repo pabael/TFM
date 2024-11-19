@@ -14,7 +14,6 @@ import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.AutonomousCommunityRepository;
 import com.tfm.tfm.response.AutonomousCommunityResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
-import com.tfm.tfm.service.ProvinceService;
 
 @Service
 public class AutonomousCommunityServiceImpl implements AutonomousCommunityService{

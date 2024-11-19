@@ -39,7 +39,6 @@ public class LocationEntity implements Serializable {
 
 	public LocationEntity(String name) {
 		this.name = name;
-		this.province = province;
 	}
 
 	public long getId() {

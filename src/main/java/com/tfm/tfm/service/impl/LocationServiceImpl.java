@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.LocationDto;
@@ -17,8 +16,6 @@ import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.repository.ProvinceRepository;
 import com.tfm.tfm.response.LocationResponse;
-import com.tfm.tfm.service.AutonomousCommunityService;
-import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LocationService;
 import com.tfm.tfm.service.ProvinceService;
 
@@ -27,16 +24,9 @@ public class LocationServiceImpl implements LocationService{
 
 	@Autowired private LocationRepository locationRepository;
 	@Autowired private ProvinceRepository provinceRepository;
-	@Autowired private AutonomousCommunityService autonomousCommunityService;
 
-	@Autowired private GeneralService generalService;
 	@Autowired private ProvinceService provinceService;
-	
-  private RestTemplate restTemplate;
 
-	public LocationServiceImpl(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-  }
 
 	public LocationResponse createLocation(LocationDto locationDto) {
 		
