@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.ConsumerDto;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.ConsumerEntity;
 import com.tfm.tfm.repository.ConsumerRepository;
 import com.tfm.tfm.response.ConsumerResponse;
@@ -66,5 +67,14 @@ public class ConsumerServiceImpl implements ConsumerService{
 		
 		consumerRepository.delete(consumer.get());
 	}
+
+	public	List<BrandEntity> getBrandsByConsumer(String consumer){
+		Optional<ConsumerEntity> consumerEntity = consumerRepository.findByType(consumer);
+
+		if(consumerEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Consumer does not exist");
+
+		return consumerEntity.get().getBrands();
+	}
+
 
 }

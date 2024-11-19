@@ -11,6 +11,7 @@ import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandFilterService;
 import com.tfm.tfm.service.BrandService;
 import com.tfm.tfm.service.CategorySubcategoryService;
+import com.tfm.tfm.service.ConsumerService;
 import com.tfm.tfm.service.LabelService;
 
 @Service
@@ -19,18 +20,23 @@ public class BrandFilterServiceImpl implements BrandFilterService{
   @Autowired private BrandService brandService;
   @Autowired private CategorySubcategoryService categorySubcategoryService;
   @Autowired private LabelService labelService;
+  @Autowired private ConsumerService consumerService;
 
   public List<BrandResponse> getBrandsByCategory(String category){
     List<BrandEntity> brandEntityList = categorySubcategoryService.getBrandsByCategory(category);
-  
     return getBrandResponseList(brandEntityList);
   }
 
   public List<BrandResponse> getBrandsByLabel(String label) {
     List<BrandEntity> brandEntityList = labelService.getBrandsByLabel(label);
-  
     return getBrandResponseList(brandEntityList);
   }
+
+  public	List<BrandResponse> getBrandsByConsumer(String consumer){
+    List<BrandEntity> brandEntityList = consumerService.getBrandsByConsumer(consumer);
+    return getBrandResponseList(brandEntityList);
+  }
+
 
   private List<BrandResponse> getBrandResponseList(List<BrandEntity> brandEntityList){
     return brandEntityList
@@ -38,5 +44,7 @@ public class BrandFilterServiceImpl implements BrandFilterService{
       .map(entity -> brandService.getBrandResponse(entity))
       .collect(Collectors.toList());
   }
+
+  
 
 }
