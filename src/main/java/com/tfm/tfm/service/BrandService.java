@@ -16,6 +16,8 @@ public interface BrandService {
 
 	BrandResponse getBrandResponse(BrandEntity brandEntity);
 	
-	List<BrandEntity> getBrandListIsVegan(boolean vegan);
+	List<BrandEntity> getBrandListIsVegan(boolean isVegan);
+
+	List<BrandEntity> getBrandListIsCrueltyFree(boolean isCrueltyFreevegan);
 
 }

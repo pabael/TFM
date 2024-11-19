@@ -13,5 +13,8 @@ public interface BrandRepository extends JpaRepository<BrandEntity, String>{
 	
 	Optional<BrandEntity> findByName(String name);
 
-	List<BrandEntity> findByVegan(boolean vegan);
+	List<BrandEntity> findByVegan(boolean isVegan);
+
+	List<BrandEntity> findByCrueltyFree(boolean isCrueltyFree);
+
 }

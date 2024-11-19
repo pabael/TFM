@@ -43,6 +43,11 @@ public class BrandFilterServiceImpl implements BrandFilterService{
     return getBrandResponseList(brandEntityList);
   }
 
+  public	List<BrandResponse> getBrandsByIsCrueltyFree(boolean isCrueltyFree){
+    List<BrandEntity> brandEntityList = brandService.getBrandListIsCrueltyFree(isCrueltyFree);
+    return getBrandResponseList(brandEntityList);
+  }
+
   public List<BrandResponse> getBrandsByLabel(String label) {
     List<BrandEntity> brandEntityList = labelService.getBrandsByLabel(label);
     return getBrandResponseList(brandEntityList);

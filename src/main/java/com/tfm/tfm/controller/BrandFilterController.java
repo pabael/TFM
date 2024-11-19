@@ -45,6 +45,19 @@ public class BrandFilterController {
 		return brandFilterService.getBrandsByIsVegan(isVegan);
 	}
 
+	@GetMapping("/brands/isCrueltyFree")
+	@Operation(summary = "Get all brands from a isCrueltyFree")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getByIsCrueltyFree(@RequestParam @Valid boolean isCrueltyFree) {
+		return brandFilterService.getBrandsByIsCrueltyFree(isCrueltyFree);
+	}
+
 	@GetMapping("/brands/label")
 	@Operation(summary = "Get all brands from label")
 

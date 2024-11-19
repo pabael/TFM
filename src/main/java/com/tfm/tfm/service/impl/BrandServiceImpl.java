@@ -124,8 +124,13 @@ public class BrandServiceImpl implements BrandService{
 		brandRepository.delete(brand.get());
 	}
 
-	public	List<BrandEntity> getBrandListIsVegan(boolean vegan){
+	public	List<BrandEntity> getBrandListIsVegan(boolean isVegan){
 
-		return brandRepository.findByVegan(vegan);
+		return brandRepository.findByVegan(isVegan);
+	}
+
+	public	List<BrandEntity> getBrandListIsCrueltyFree(boolean isCrueltyFree){
+
+		return brandRepository.findByCrueltyFree(isCrueltyFree);
 	}
 }
