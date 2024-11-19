@@ -97,4 +97,17 @@ public class BrandFilterController {
 	public List<BrandResponse> getByProvince(@RequestParam @Valid String province) {
 		return brandFilterService.getBrandsByProvince(province);
 	}
+
+	@GetMapping("/brands/autonomousCommunity")
+	@Operation(summary = "Get all brands from autonomousCommunity")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getByAutonomousCommunity(@RequestParam @Valid String autonomousCommunity) {
+		return brandFilterService.getBrandsByAutonomousCommunity(autonomousCommunity);
+	}
 }

@@ -1,13 +1,17 @@
 package com.tfm.tfm.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfm.tfm.entity.BrandEntity;
+import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.response.BrandResponse;
+import com.tfm.tfm.service.AutonomousCommunityService;
 import com.tfm.tfm.service.BrandFilterService;
 import com.tfm.tfm.service.BrandService;
 import com.tfm.tfm.service.CategorySubcategoryService;
@@ -27,6 +31,7 @@ public class BrandFilterServiceImpl implements BrandFilterService{
   @Autowired private PriceService priceService;
   @Autowired private LocationService locationService;
   @Autowired private ProvinceService provinceService;
+  @Autowired private AutonomousCommunityService autonomousCommunityService;
 
   public List<BrandResponse> getBrandsByCategory(String category){
     List<BrandEntity> brandEntityList = categorySubcategoryService.getBrandsByCategory(category);
@@ -56,6 +61,19 @@ public class BrandFilterServiceImpl implements BrandFilterService{
   public	List<BrandResponse> getBrandsByProvince(String province){
     List<BrandEntity> brandEntityList = provinceService.getBrandsByProvince(province);
     return getBrandResponseList(brandEntityList);
+  }
+
+  public	List<BrandResponse> getBrandsByAutonomousCommunity(String autonomousCommunity){
+    
+    List<ProvinceEntity> provinces = autonomousCommunityService.getProvincesByAutonomousCommunity(autonomousCommunity);
+
+    Set<BrandEntity> brands = new HashSet<>();
+
+    for (ProvinceEntity province : provinces) {
+      brands.addAll(provinceService.getBrandsByProvince(province));
+    }
+
+    return getBrandResponseList(brands.stream().collect(Collectors.toList()));
   }
 
   private List<BrandResponse> getBrandResponseList(List<BrandEntity> brandEntityList){

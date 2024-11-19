@@ -59,15 +59,18 @@ public class ProvinceServiceImpl implements ProvinceService{
 
 		if(provinceEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No brands");
 		
-		List<LocationEntity> locations = provinceEntity.get().getLocations();
+		return getBrandsByProvince(provinceEntity.get());
+	}
+
+	public List<BrandEntity> getBrandsByProvince(ProvinceEntity provinceEntity){
+		List<LocationEntity> locations = provinceEntity.getLocations();
 
 		Set<BrandEntity> brands = new HashSet<>();
 
-    for (LocationEntity location : locations) {
-      brands.addAll(location.getBrands());
-    }
-
-    return brands.stream().collect(Collectors.toList());
+	    for (LocationEntity location : locations) {
+	      brands.addAll(location.getBrands());
+	    }
+	
+	    return brands.stream().collect(Collectors.toList());
 	}
-
 }

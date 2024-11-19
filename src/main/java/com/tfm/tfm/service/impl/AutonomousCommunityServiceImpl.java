@@ -9,11 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tfm.tfm.dto.AutonomousCommunityDto;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
+import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.AutonomousCommunityRepository;
 import com.tfm.tfm.response.AutonomousCommunityResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
+import com.tfm.tfm.service.ProvinceService;
 
 @Service
 public class AutonomousCommunityServiceImpl implements AutonomousCommunityService{
@@ -41,6 +42,15 @@ public class AutonomousCommunityServiceImpl implements AutonomousCommunityServic
 		if(autonomousCommunityEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Autonomous Community dos not exist");
 		
 		return autonomousCommunityEntity.get();
+	}
+
+	public List<ProvinceEntity> getProvincesByAutonomousCommunity(String autonomousCommunity){
+		Optional<AutonomousCommunityEntity> autonomousCommunityEntity = autonomousCommunityRepository.findByName(autonomousCommunity);
+
+		if(autonomousCommunityEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No brands");
+		
+		return autonomousCommunityEntity.get().getProvinces();
+		
 	}
 
 }
