@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.LabelDto;
+import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LabelEntity;
 import com.tfm.tfm.repository.LabelRepository;
 import com.tfm.tfm.response.LabelResponse;
@@ -64,6 +65,14 @@ public class LabelServiceImpl implements LabelService{
 		if(label.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label does not exist");
 		
 		labelRepository.delete(label.get());
+	}
+
+	public 	List<BrandEntity> getBrandsByLabel(String label){
+		Optional<LabelEntity> labelEntity = labelRepository.findByName(label);
+
+		if(labelEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label does not exist");
+
+		return labelEntity.get().getBrands();
 	}
 
 }

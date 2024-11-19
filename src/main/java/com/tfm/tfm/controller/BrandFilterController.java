@@ -32,4 +32,17 @@ public class BrandFilterController {
 	public List<BrandResponse> getByCategory(@RequestParam @Valid String category) {
 		return brandFilterService.getBrandsByCategory(category);
 	}
+
+	@GetMapping("/brands/label")
+	@Operation(summary = "Get all brands from label")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getByLabel(@RequestParam @Valid String label) {
+		return brandFilterService.getBrandsByLabel(label);
+	}
 }

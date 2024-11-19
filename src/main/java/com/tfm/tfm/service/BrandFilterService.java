@@ -9,4 +9,6 @@ public interface BrandFilterService {
 		
 	List<BrandResponse> getBrandsByCategory(String category);
 
+	List<BrandResponse> getBrandsByLabel(String label);
+
 }
