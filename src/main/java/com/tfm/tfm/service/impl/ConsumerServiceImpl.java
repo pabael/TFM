@@ -39,6 +39,8 @@ public class ConsumerServiceImpl implements ConsumerService{
 	
 	public List<ConsumerEntity> getListConsumerEntity(List<String> consumers) {
 
+		if(consumers == null) return null;
+
 		return consumers.stream()
     .map(consumer -> consumerRepository.findByType(consumer))
     .filter(Optional::isPresent)

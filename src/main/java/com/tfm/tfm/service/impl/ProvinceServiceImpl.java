@@ -32,6 +32,8 @@ public class ProvinceServiceImpl implements ProvinceService{
 	
 		List<ProvinceEntity> listDto = getProvinceEntityList(autonomousCommunityDto);
 
+		if(listDto == null) return null;
+
 		return listDto.stream()
 			.map(entity -> new ProvinceResponse(entity.getName()))
 			.collect(Collectors.toList()); 
@@ -67,10 +69,12 @@ public class ProvinceServiceImpl implements ProvinceService{
 
 		Set<BrandEntity> brands = new HashSet<>();
 
-	    for (LocationEntity location : locations) {
-	      brands.addAll(location.getBrands());
-	    }
-	
-	    return brands.stream().collect(Collectors.toList());
+		for (LocationEntity location : locations) {
+			brands.addAll(location.getBrands());
+		}
+
+		if(brands == null) return null;
+
+		return brands.stream().collect(Collectors.toList());
 	}
 }

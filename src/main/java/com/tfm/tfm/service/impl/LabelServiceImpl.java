@@ -37,6 +37,8 @@ public class LabelServiceImpl implements LabelService{
 	
 	public List<LabelEntity> getListLabelEntity(List<String> labels) {
 
+		if(labels == null) return null;
+
 		return labels.stream()
     .map(label -> labelRepository.findByName(label))
     .filter(Optional::isPresent)

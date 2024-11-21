@@ -90,6 +90,8 @@ public class BrandFilterServiceImpl implements BrandFilterService{
       brands.addAll(provinceService.getBrandsByProvince(province));
     }
 
+    if(brands == null) return null;
+
     return getBrandResponseList(brands.stream().collect(Collectors.toList()));
   }
 

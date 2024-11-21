@@ -8,9 +8,10 @@ public class BrandResponse {
 	
 	private String name;
 	private String summary;
+	private String url;
 	private String materials;
-	private boolean crueltyFree;
-	private boolean vegan;
+	private Boolean crueltyFree;
+	private Boolean vegan;
 	private String commitment;
 	private String production;
 	
@@ -26,10 +27,11 @@ public class BrandResponse {
 
 	public BrandResponse() {}
 	
-	public BrandResponse(String name, String summary, String materials, boolean crueltyFree, boolean vegan,
+	public BrandResponse(String name, String summary, String url, String materials, Boolean crueltyFree, Boolean vegan,
 			String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, List<String> labels, List<String> consumers, int price, List<String> locations) {
 		this.name = name;
 		this.summary = summary;
+		this.url = url;
 		this.materials = materials;
 		this.crueltyFree = crueltyFree;
 		this.vegan = vegan;
@@ -58,6 +60,14 @@ public class BrandResponse {
 		this.summary = summary;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public String getMaterials() {
 		return materials;
 	}
@@ -66,19 +76,19 @@ public class BrandResponse {
 		this.materials = materials;
 	}
 
-	public boolean isCrueltyFree() {
+	public Boolean isCrueltyFree() {
 		return crueltyFree;
 	}
 
-	public void setCrueltyFree(boolean crueltyFree) {
+	public void setCrueltyFree(Boolean crueltyFree) {
 		this.crueltyFree = crueltyFree;
 	}
 
-	public boolean isVegan() {
+	public Boolean isVegan() {
 		return vegan;
 	}
 
-	public void setVegan(boolean vegan) {
+	public void setVegan(Boolean vegan) {
 		this.vegan = vegan;
 	}
 

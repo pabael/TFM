@@ -19,6 +19,7 @@ import com.tfm.tfm.entity.CategoryEntity;
 import com.tfm.tfm.entity.ConsumerEntity;
 import com.tfm.tfm.entity.LabelEntity;
 import com.tfm.tfm.entity.LocationEntity;
+import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.repository.BrandRepository;
 import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandService;
@@ -60,6 +61,7 @@ public class BrandServiceImpl implements BrandService{
 		return new BrandEntity(
 				generalService.capitalizeFirstLetter(brandDto.getName()), 
 				brandDto.getSummary(), 
+				brandDto.getUrl(),
 				brandDto.getMaterials(), 
 				brandDto.isCrueltyFree(),
 				brandDto.isVegan(),
@@ -75,40 +77,45 @@ public class BrandServiceImpl implements BrandService{
 	}
 
 	private List<String> getCategories (List<Map<String, String>> categoriesAndSubcategories){
+		
+		if(categoriesAndSubcategories == null) return null;
+
 		return categoriesAndSubcategories.stream()
     	.map(map -> map.get("category"))
     	.collect(Collectors.toList());
 	}
 
-	private List<String> getSubcategories (List<Map<String, String>> categoriesAndSubcategories){
-		return categoriesAndSubcategories.stream()
-    	.map(map -> map.get("subcategory"))
-    	.collect(Collectors.toList());
-	}
-
 	private List<Map<String, String>> getCategoriesAndSubcategoriesMap(BrandEntity brandEntity){
 
+		List<CategoryEntity> categories = brandEntity.getCategories();
+		if(categories == null) return null;
+		
+		List<SubcategoryEntity> subcategories = brandEntity.getSubcategories();
+
 		List<Map<String, String>> categoryAndSubcategory = new ArrayList<>();
-		
-		Set<CategoryEntity> categoriesWithSubcategories = brandEntity.getSubcategories().stream()
-			.map(subcategory -> {
-					Map<String, String> map = new HashMap<>();
-					map.put("category", subcategory.getCategory().getName());
-					map.put("subcategory", subcategory.getName());
-					categoryAndSubcategory.add(map);
-					return subcategory.getCategory();
-			})
-			.collect(Collectors.toSet());
-		
-		//Add categories that don't have subcategories
-		brandEntity.getCategories().stream()
+
+		if(subcategories != null){
+			Set<CategoryEntity> categoriesWithSubcategories = subcategories.stream()
+				.map(subcategory -> {
+						Map<String, String> map = new HashMap<>();
+						map.put("category", subcategory.getCategory().getName());
+						map.put("subcategory", subcategory.getName());
+						categoryAndSubcategory.add(map);
+						return subcategory.getCategory();
+				})
+				.collect(Collectors.toSet());
+
+			categories = categories.stream()
         .filter(category -> !categoriesWithSubcategories.contains(category))
-        .forEach(category -> {
-            Map<String, String> map = new HashMap<>();
-            map.put("category", category.getName());
-            map.put("subcategory", null);
-            categoryAndSubcategory.add(map);
-        });
+				.collect(Collectors.toList());
+		}
+
+		categories.forEach(category -> {
+				Map<String, String> map = new HashMap<>();
+				map.put("category", category.getName());
+				map.put("subcategory", null);
+				categoryAndSubcategory.add(map);
+		});
 
 		return categoryAndSubcategory;
 	}
@@ -117,16 +124,17 @@ public class BrandServiceImpl implements BrandService{
 		return new BrandResponse(
 				brandEntity.getName(), 
 				brandEntity.getSummary(),
+				brandEntity.getUrl(),
 				brandEntity.getMaterials(),
 				brandEntity.isCrueltyFree(),
 				brandEntity.isVegan(),
 				brandEntity.getCommitment(),
 				brandEntity.getProduction(),
 				getCategoriesAndSubcategoriesMap(brandEntity),
-				brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
-				brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
+				brandEntity.getLabels() == null ? null : brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
+				brandEntity.getConsumers() == null ? null : brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
 				brandEntity.getPrice().getPriceRange(),
-				brandEntity.getLocations().stream().map(LocationEntity::getName).collect(Collectors.toList())
+				brandEntity.getLocations() == null ? null : brandEntity.getLocations().stream().map(LocationEntity::getName).collect(Collectors.toList())
 		);
 	}
 
@@ -138,6 +146,7 @@ public class BrandServiceImpl implements BrandService{
 
 		if(brandDto.getName() != null) brand.get().setName(generalService.capitalizeFirstLetter(brandDto.getName()));
 		if(brandDto.getSummary() != null) brand.get().setSummary(brandDto.getSummary());
+		if(brandDto.getUrl() != null) brand.get().setUrl(brandDto.getUrl());
 		if(brandDto.getMaterials() != null) brand.get().setMaterials(brandDto.getMaterials());
 		if(brandDto.isCrueltyFree() != null) brand.get().setCrueltyFree(brandDto.isCrueltyFree());
 		if(brandDto.isVegan() != null) brand.get().setVegan(brandDto.isVegan());

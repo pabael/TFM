@@ -46,7 +46,11 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	private CategoryResponse getCategoryResponse(CategoryEntity categoryEntity) {
 	
-		List<String> subcategories = categoryEntity.getSubcategories().stream().map(SubcategoryEntity::getName).collect(Collectors.toList());
+		List<SubcategoryEntity> subcategoriesEntity = categoryEntity.getSubcategories();
+
+		if(subcategoriesEntity == null) return new CategoryResponse(categoryEntity.getName());
+		
+		List<String> subcategories = subcategoriesEntity.stream().map(SubcategoryEntity::getName).collect(Collectors.toList());
 	
 		return new CategoryResponse(categoryEntity.getName(), subcategories);
 	}
@@ -67,6 +71,8 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	public List<CategoryEntity> getListCategoryEntity(List<String> categories) {
+		
+		if(categories == null) return null;
 		
 		return categories.stream()
     .map(category -> categoryRepository.findByName(category))

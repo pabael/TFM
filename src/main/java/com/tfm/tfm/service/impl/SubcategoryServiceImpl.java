@@ -53,6 +53,8 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 	
 	public List<SubcategoryEntity> getListSubcategoryEntity(List<Map<String, String>> categoriesAndSubcategories) {
 		
+		if(categoriesAndSubcategories == null) return null;
+
 		return categoriesAndSubcategories.stream()
 		    .map(map -> subcategoryRepository.findByNameAndCategory_Name(map.get("subcategory"), map.get("category")))
 		    .filter(Optional::isPresent)

@@ -24,6 +24,8 @@ public class AutonomousCommunityServiceImpl implements AutonomousCommunityServic
 		
 		List<AutonomousCommunityEntity> listEntity = autonomousCommunityRepository.findAll();
 
+		if(listEntity == null) return null;
+
 		return listEntity.stream()
 			.map(entity -> new AutonomousCommunityResponse(entity.getName()))
 			.collect(Collectors.toList()); 

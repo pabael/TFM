@@ -18,6 +18,9 @@ public class BrandDto implements Serializable {
 	@Schema(name="summary", example="Empresa valenciana.")
 	private String summary;
 	
+	@Schema(name="url", example="https://www.clotsybrand.com")
+	private String url;
+	
 	@Schema(name="materials", example="algodón orgánico")
 	private String materials;
 	
@@ -51,10 +54,12 @@ public class BrandDto implements Serializable {
 
 	public BrandDto() {}
 	
-	public BrandDto(@NotNull String name, String summary, String materials, Boolean crueltyFree,
-			Boolean vegan, String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, List<String> labels, List<String> consumers, Integer price,List<String> locations) {
+	public BrandDto(@NotNull String name, String summary, String url, String materials, Boolean crueltyFree,
+			Boolean vegan, String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, 
+			List<String> labels, List<String> consumers, Integer price,List<String> locations) {
 		this.name = name;
 		this.summary = summary;
+		this.url = url;
 		this.materials = materials;
 		this.crueltyFree = crueltyFree;
 		this.vegan = vegan;
@@ -81,6 +86,14 @@ public class BrandDto implements Serializable {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getMaterials() {

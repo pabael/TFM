@@ -83,6 +83,8 @@ public class LocationServiceImpl implements LocationService{
 
 	public List<LocationEntity> getListLocationEntity(List<String> locations) {
 
+		if(locations == null) return null;
+
 		return locations.stream()
 			.map(location -> locationRepository.findByName(location))
 			.filter(Optional::isPresent)
