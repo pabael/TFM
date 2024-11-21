@@ -67,8 +67,8 @@ public class BrandServiceImpl implements BrandService{
 				brandDto.isVegan(),
 				brandDto.getCommitment(),
 				brandDto.getProduction(),
-				categoryService.getListCategoryEntity(getCategories(brandDto.getCategoriesAndSubcategories())),
-				subcategoryService.getListSubcategoryEntity(brandDto.getCategoriesAndSubcategories()),
+				categoryService.getListCategoryEntity(brandDto.getCategories()),
+				subcategoryService.getListSubcategoryEntity(brandDto.getCategories()),
 				labelService.getListLabelEntity(brandDto.getLabels()),
 				consumerService.getListConsumerEntity(brandDto.getConsumers()),
 				priceService.getPriceEntity(brandDto.getPrice()),
@@ -76,50 +76,6 @@ public class BrandServiceImpl implements BrandService{
 			);
 	}
 
-	private List<String> getCategories (List<Map<String, String>> categoriesAndSubcategories){
-		
-		if(categoriesAndSubcategories == null) return null;
-
-		return categoriesAndSubcategories.stream()
-    	.map(map -> map.get("category"))
-    	.collect(Collectors.toList());
-	}
-
-	private List<Map<String, String>> getCategoriesAndSubcategoriesMap(BrandEntity brandEntity){
-
-		List<CategoryEntity> categories = brandEntity.getCategories();
-		if(categories == null) return null;
-		
-		List<SubcategoryEntity> subcategories = brandEntity.getSubcategories();
-
-		List<Map<String, String>> categoryAndSubcategory = new ArrayList<>();
-
-		if(subcategories != null){
-			Set<CategoryEntity> categoriesWithSubcategories = subcategories.stream()
-				.map(subcategory -> {
-						Map<String, String> map = new HashMap<>();
-						map.put("category", subcategory.getCategory().getName());
-						map.put("subcategory", subcategory.getName());
-						categoryAndSubcategory.add(map);
-						return subcategory.getCategory();
-				})
-				.collect(Collectors.toSet());
-
-			categories = categories.stream()
-        .filter(category -> !categoriesWithSubcategories.contains(category))
-				.collect(Collectors.toList());
-		}
-
-		categories.forEach(category -> {
-				Map<String, String> map = new HashMap<>();
-				map.put("category", category.getName());
-				map.put("subcategory", null);
-				categoryAndSubcategory.add(map);
-		});
-
-		return categoryAndSubcategory;
-	}
-	
 	public BrandResponse getBrandResponse(BrandEntity brandEntity) {
 		return new BrandResponse(
 				brandEntity.getName(), 
@@ -130,7 +86,7 @@ public class BrandServiceImpl implements BrandService{
 				brandEntity.isVegan(),
 				brandEntity.getCommitment(),
 				brandEntity.getProduction(),
-				getCategoriesAndSubcategoriesMap(brandEntity),
+				categoryService.getListCategoryResponse(brandEntity.getCategories()),
 				brandEntity.getLabels() == null ? null : brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
 				brandEntity.getConsumers() == null ? null : brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
 				brandEntity.getPrice().getPriceRange(),
@@ -139,7 +95,6 @@ public class BrandServiceImpl implements BrandService{
 	}
 
 	public	BrandResponse updateBrand(BrandDto brandDto){
-	
 	
 		Optional<BrandEntity> brand = brandRepository.findByName(brandDto.getName());
 		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand does not exist");
@@ -152,16 +107,11 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.isVegan() != null) brand.get().setVegan(brandDto.isVegan());
 		if(brandDto.getCommitment() != null) brand.get().setCommitment(brandDto.getCommitment());
 		if(brandDto.getProduction() != null) brand.get().setProduction(brandDto.getProduction());
-		
-		if(brandDto.getCategoriesAndSubcategories() != null) {
-			brand.get().setCategories(categoryService.getListCategoryEntity(getCategories(brandDto.getCategoriesAndSubcategories())));
-			brand.get().setSubcategories(subcategoryService.getListSubcategoryEntity(brandDto.getCategoriesAndSubcategories()));
-		}
+		if(brandDto.getCategories() != null) brand.get().setCategories(categoryService.getListCategoryEntity(brandDto.getCategories()));
+
 		if(brandDto.getLabels() != null) brand.get().setLabels(labelService.getListLabelEntity(brandDto.getLabels()));
 		if(brandDto.getConsumers() != null) brand.get().setConsumers(consumerService.getListConsumerEntity(brandDto.getConsumers()));
-		
 		if(brandDto.getPrice() != null) brand.get().setPrice(priceService.getPriceEntity(brandDto.getPrice()));
-
 		if(brandDto.getLocations() != null) brand.get().setLocations(locationService.getListLocationEntity(brandDto.getLocations()));
 
 		brandRepository.save(brand.get());

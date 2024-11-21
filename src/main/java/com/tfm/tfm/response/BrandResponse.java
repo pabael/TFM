@@ -15,7 +15,7 @@ public class BrandResponse {
 	private String commitment;
 	private String production;
 	
-	private List<Map<String, String>> categoriesAndSubcategories;
+	private List<CategoryResponse> categories;
 	
 	private List<String> labels = new ArrayList<>();
 
@@ -28,7 +28,8 @@ public class BrandResponse {
 	public BrandResponse() {}
 	
 	public BrandResponse(String name, String summary, String url, String materials, Boolean crueltyFree, Boolean vegan,
-			String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, List<String> labels, List<String> consumers, int price, List<String> locations) {
+			String commitment, String production, List<CategoryResponse> categories, List<String> labels, List<String> consumers, 
+			int price, List<String> locations) {
 		this.name = name;
 		this.summary = summary;
 		this.url = url;
@@ -37,7 +38,7 @@ public class BrandResponse {
 		this.vegan = vegan;
 		this.commitment = commitment;
 		this.production = production;
-		this.categoriesAndSubcategories = categoriesAndSubcategories;
+		this.categories = categories;
 		this.labels = labels;
 		this.consumers = consumers;
 		this.price = price;
@@ -108,12 +109,12 @@ public class BrandResponse {
 		this.production = production;
 	}
 
-	public List<Map<String, String>> getCategoriesAndSubcategories() {
-		return categoriesAndSubcategories;
+	public List<CategoryResponse> getCategories() {
+		return categories;
 	}
 
-	public void setCategoriesAndSubcategories(List<Map<String, String>> categoriesAndSubcategories) {
-		this.categoriesAndSubcategories = categoriesAndSubcategories;
+	public void setCategories(List<CategoryResponse> categories) {
+		this.categories = categories;
 	}
 
 	public List<String> getLabels() {

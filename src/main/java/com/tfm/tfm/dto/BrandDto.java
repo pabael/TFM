@@ -36,9 +36,7 @@ public class BrandDto implements Serializable {
 	@Schema(name="production", example="Pequeños artesanos. ")
 	private String production;
 	
-	@Schema(name="categoriesAndSubcategories", example = "[{\"category\":\"ropa\", \"subcategory\":\"deporte\"}, {\"category\":\"calzado\", \"subcategory\":\"deporte\"}]"
-	)
-	private List<Map<String, String>> categoriesAndSubcategories;
+	private List<CategoryDto> categories;
 
 	@Schema(name="labels", type="array", example="[\"GOTS\"]")
 	private List<String> labels;
@@ -55,7 +53,7 @@ public class BrandDto implements Serializable {
 	public BrandDto() {}
 	
 	public BrandDto(@NotNull String name, String summary, String url, String materials, Boolean crueltyFree,
-			Boolean vegan, String commitment, String production, List<Map<String, String>> categoriesAndSubcategories, 
+			Boolean vegan, String commitment, String production, List<CategoryDto> categories, 
 			List<String> labels, List<String> consumers, Integer price,List<String> locations) {
 		this.name = name;
 		this.summary = summary;
@@ -65,7 +63,7 @@ public class BrandDto implements Serializable {
 		this.vegan = vegan;
 		this.commitment = commitment;
 		this.production = production;
-		this.categoriesAndSubcategories = categoriesAndSubcategories;
+		this.categories = categories;
 		this.labels = labels;
 		this.consumers = consumers;
 		this.price = price;
@@ -136,12 +134,12 @@ public class BrandDto implements Serializable {
 		this.production = production;
 	}
 
-	public List<Map<String, String>> getCategoriesAndSubcategories() {
-		return categoriesAndSubcategories;
+	public List<CategoryDto> getCategories() {
+		return categories;
 	}
 
-	public void setCategoriesAndSubcategories(List<Map<String, String>> categoriesAndSubcategories) {
-		this.categoriesAndSubcategories = categoriesAndSubcategories;
+	public void setCategories(List<CategoryDto> categories) {
+		this.categories = categories;
 	}
 
 	public List<String> getLabels() {

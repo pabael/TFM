@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfm.tfm.dto.CategoryDto;
@@ -43,7 +44,7 @@ public class CategoryController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public void deleteCategory(@RequestBody @Valid CategoryDto categoryDto) {
-		categoryService.deleteCategory(categoryDto);
+	public void deleteCategory(@RequestParam String category) {
+		categoryService.deleteCategory(category);
 	}
 }
