@@ -10,8 +10,8 @@ import com.tfm.tfm.response.LabelResponse;
 public interface LabelService {
 		
 	LabelResponse createLabel(LabelDto labelDto);
-
 	void deleteLabel(LabelDto labelDto);
+	List<LabelResponse> getAllLabels();
 
 	List<LabelEntity> getListLabelEntity(List<String> labels);
 

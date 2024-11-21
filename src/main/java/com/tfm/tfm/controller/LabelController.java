@@ -1,7 +1,10 @@
 package com.tfm.tfm.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +48,18 @@ public class LabelController {
 		})
 	public void delete(@RequestBody @Valid LabelDto labelDto) {
 		labelService.deleteLabel(labelDto);
+	}
+
+	@GetMapping("/labels")
+	@Operation(summary = "Get all labels")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<LabelResponse> getAll() {
+		return labelService.getAllLabels();
 	}
 }

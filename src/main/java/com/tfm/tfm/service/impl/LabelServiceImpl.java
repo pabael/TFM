@@ -46,6 +46,17 @@ public class LabelServiceImpl implements LabelService{
     .collect(Collectors.toList());
 	}
 
+	public List<LabelResponse> getAllLabels(){
+
+		List<LabelEntity> entityList = labelRepository.findAll();
+
+		if(entityList == null) return null;
+
+		return entityList.stream()
+			.map(entity -> new LabelResponse(entity.getName()))
+			.collect(Collectors.toList());
+	}
+
 	public	void deleteLabel(LabelDto labelDto){
 	
 		Optional<LabelEntity> label = labelRepository.findByName(labelDto.getName());
