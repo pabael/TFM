@@ -48,6 +48,18 @@ public class ConsumerServiceImpl implements ConsumerService{
     .collect(Collectors.toList());
 	}
 
+	public	List<ConsumerResponse> getAllConsumers(){
+
+		List<ConsumerEntity> entityList = consumerRepository.findAll();
+
+		if(entityList == null) return null;
+
+		return entityList.stream()
+			.map(entity -> new ConsumerResponse(entity.getType()))
+			.collect(Collectors.toList());
+	}
+
+
 	public	void deleteConsumer(ConsumerDto consumerDto){
 	
 		Optional<ConsumerEntity> consumer = consumerRepository.findByType(consumerDto.getType());

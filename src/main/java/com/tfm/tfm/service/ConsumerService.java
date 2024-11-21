@@ -10,8 +10,8 @@ import com.tfm.tfm.response.ConsumerResponse;
 public interface ConsumerService {
 		
 	ConsumerResponse createConsumer(ConsumerDto consumerDto);
-
 	void deleteConsumer(ConsumerDto consumerDto);
+	List<ConsumerResponse> getAllConsumers();
 
 	List<ConsumerEntity> getListConsumerEntity(List<String> consumers);
 
