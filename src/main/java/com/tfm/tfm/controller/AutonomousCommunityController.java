@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class AutonomousCommunityController {
 	@Autowired private AutonomousCommunityService autonomousCommunityService;
 
-	@GetMapping("/autonomousCommunity")
+	@GetMapping("/autonomousCommunities")
 	@Operation(summary = "Get all autonomous Communities", 
     description = "Get all autonomous Communities in the system.")
 

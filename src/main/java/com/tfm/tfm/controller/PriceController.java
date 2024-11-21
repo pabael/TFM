@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public class PriceController {
 	@Autowired private PriceService priceService;
 
-	@GetMapping("/price")
+	@GetMapping("/prices")
 	@Operation(summary = "Get all prices")
 
 		@ApiResponses(value = { 
