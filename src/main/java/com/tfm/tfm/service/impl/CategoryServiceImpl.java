@@ -91,6 +91,11 @@ public class CategoryServiceImpl implements CategoryService{
 			.collect(Collectors.toList());
 	}
 
+	public List<CategoryResponse> getAllCategories(){
+
+		return getListCategoryResponse(categoryRepository.findAll());
+	}
+
 	public void deleteCategory(String category){
 		
 		Optional<CategoryEntity> categoryEntity = categoryRepository.findByName(category);

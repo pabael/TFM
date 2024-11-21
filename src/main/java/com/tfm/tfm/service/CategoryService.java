@@ -11,6 +11,7 @@ public interface CategoryService {
 		
 	CategoryResponse createCategory(CategoryDto categoryDto);
 	void deleteCategory(String category);
+	List<CategoryResponse> getAllCategories();
 
 	CategoryEntity getCategoryEntity(String category);
 
