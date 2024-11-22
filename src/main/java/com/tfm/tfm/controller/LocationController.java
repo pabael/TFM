@@ -31,8 +31,8 @@ public class LocationController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public List<LocationResponse> getAll(@RequestParam String Province) {
-		return locationService.getLocationList(Province);
+	public List<LocationResponse> getAll(@RequestParam String province) {
+		return locationService.getLocationList(province);
 	}
 
 	@PostMapping("/location")

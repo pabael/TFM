@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tfm.tfm.dto.AutonomousCommunityDto;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
 import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LocationEntity;
@@ -28,9 +27,9 @@ public class ProvinceServiceImpl implements ProvinceService{
 
 	@Autowired private AutonomousCommunityService autonomousCommunityService;
 
-	public List<ProvinceResponse> getProvinceList(AutonomousCommunityDto autonomousCommunityDto){
+	public List<ProvinceResponse> getProvinceList(String autonomousCommunity){
 	
-		List<ProvinceEntity> listDto = getProvinceEntityList(autonomousCommunityDto);
+		List<ProvinceEntity> listDto = getProvinceEntityList(autonomousCommunity);
 
 		if(listDto == null) return null;
 
@@ -39,9 +38,9 @@ public class ProvinceServiceImpl implements ProvinceService{
 			.collect(Collectors.toList()); 
 	}
 
-	private List<ProvinceEntity> getProvinceEntityList(AutonomousCommunityDto autonomousCommunityDto){
+	private List<ProvinceEntity> getProvinceEntityList(String autonomousCommunity){
 	
-		AutonomousCommunityEntity autonomousCommunityEntity = autonomousCommunityService.getAutonomousCommunityEntity(autonomousCommunityDto.getName());
+		AutonomousCommunityEntity autonomousCommunityEntity = autonomousCommunityService.getAutonomousCommunityEntity(autonomousCommunity);
 
 		return provinceRepository.findByAutonomousCommunity(autonomousCommunityEntity);
 	}
