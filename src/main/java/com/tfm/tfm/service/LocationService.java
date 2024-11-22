@@ -13,7 +13,7 @@ public interface LocationService {
 
 	List<LocationResponse> getLocationList(String province);
 
-	List<LocationEntity> getListLocationEntity(List<String> locations);
+	List<LocationEntity> getListLocationEntity(List<LocationDto> locations);
 
 	List<BrandEntity> getBrandsByLocation(String location);
 

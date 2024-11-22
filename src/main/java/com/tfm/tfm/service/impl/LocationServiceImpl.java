@@ -36,13 +36,15 @@ public class LocationServiceImpl implements LocationService{
   }
 
 	public LocationResponse createLocation(LocationDto locationDto) {
+			
+		return getLocationResponse(createLocationGetEntity(locationDto));
+	}
 
+	public LocationEntity createLocationGetEntity(LocationDto locationDto){
 		Optional<LocationEntity> locationEntity = locationRepository.findByName(locationDto.getName());
-		if(locationEntity.isPresent()) return getLocationResponse(locationEntity.get());
+		if(locationEntity.isPresent()) return locationEntity.get();
 
-		LocationEntity newLocationEntity = getNewLocationEntity(locationDto);
-				
-		return getLocationResponse(newLocationEntity);
+		return getNewLocationEntity(locationDto);
 	}
 
 	private LocationEntity getNewLocationEntity(LocationDto locationDto) {
@@ -81,14 +83,12 @@ public class LocationServiceImpl implements LocationService{
 							.collect(Collectors.toList());
 	}
 
-	public List<LocationEntity> getListLocationEntity(List<String> locations) {
+	public List<LocationEntity> getListLocationEntity(List<LocationDto> locations) {
 
 		if(locations == null) return null;
 
 		return locations.stream()
-			.map(location -> locationRepository.findByName(location))
-			.filter(Optional::isPresent)
-			.map(Optional::get)
+			.map(location -> createLocationGetEntity(location))
 			.collect(Collectors.toList());
 	}
 

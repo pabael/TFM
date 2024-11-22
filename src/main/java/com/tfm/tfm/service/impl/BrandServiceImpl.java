@@ -1,11 +1,7 @@
 package com.tfm.tfm.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tfm.tfm.dto.BrandDto;
 import com.tfm.tfm.entity.BrandEntity;
-import com.tfm.tfm.entity.CategoryEntity;
 import com.tfm.tfm.entity.ConsumerEntity;
 import com.tfm.tfm.entity.LabelEntity;
 import com.tfm.tfm.entity.LocationEntity;
-import com.tfm.tfm.entity.SubcategoryEntity;
 import com.tfm.tfm.repository.BrandRepository;
 import com.tfm.tfm.response.BrandResponse;
 import com.tfm.tfm.service.BrandService;
