@@ -83,6 +83,13 @@ public class LocationServiceImpl implements LocationService{
 							.collect(Collectors.toList());
 	}
 
+	public List<LocationResponse> getListLocationResponse(List<LocationEntity> locations){
+		return locations
+			.stream()
+			.map(entity -> this.getLocationResponse(entity))
+			.collect(Collectors.toList());
+	}
+
 	public List<LocationEntity> getListLocationEntity(List<LocationDto> locations) {
 
 		if(locations == null) return null;

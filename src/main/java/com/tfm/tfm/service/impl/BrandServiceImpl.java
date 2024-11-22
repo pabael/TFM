@@ -84,7 +84,7 @@ public class BrandServiceImpl implements BrandService{
 				brandEntity.getLabels() == null ? null : brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
 				brandEntity.getConsumers() == null ? null : brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
 				brandEntity.getPrice().getPriceRange(),
-				brandEntity.getLocations() == null ? null : brandEntity.getLocations().stream().map(LocationEntity::getName).collect(Collectors.toList())
+				locationService.getListLocationResponse(brandEntity.getLocations())
 		);
 	}
 
