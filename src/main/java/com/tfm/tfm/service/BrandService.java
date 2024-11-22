@@ -14,6 +14,8 @@ public interface BrandService {
 
 	void deleteBrand(String brandName);
 
+	BrandResponse getBrand(String brandName);
+
 	BrandResponse getBrandResponse(BrandEntity brandEntity);
 	
 	List<BrandEntity> getBrandListIsVegan(boolean isVegan);

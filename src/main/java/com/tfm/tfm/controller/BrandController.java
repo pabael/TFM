@@ -2,6 +2,7 @@ package com.tfm.tfm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,5 +62,18 @@ public class BrandController {
 		})
 	public void delete(@RequestParam String brandName) {
 		brandService.deleteBrand(brandName);
+	}
+
+	@GetMapping("/brand")
+	@Operation(summary = "Get brand information")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public BrandResponse get(@RequestParam String brand) {
+		return brandService.getBrand(brand);
 	}
 }
