@@ -84,6 +84,8 @@ public class LocationServiceImpl implements LocationService{
 	}
 
 	public List<LocationResponse> getListLocationResponse(List<LocationEntity> locations){
+		if(locations == null) return null;
+
 		return locations
 			.stream()
 			.map(entity -> this.getLocationResponse(entity))

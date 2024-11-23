@@ -97,8 +97,8 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.getSummary() != null) brand.get().setSummary(brandDto.getSummary());
 		if(brandDto.getUrl() != null) brand.get().setUrl(brandDto.getUrl());
 		if(brandDto.getMaterials() != null) brand.get().setMaterials(brandDto.getMaterials());
-		if(brandDto.isCrueltyFree() != null) brand.get().setCrueltyFree(brandDto.isCrueltyFree());
-		if(brandDto.isVegan() != null) brand.get().setVegan(brandDto.isVegan());
+		brand.get().setCrueltyFree(brandDto.isCrueltyFree());
+		brand.get().setVegan(brandDto.isVegan());
 		if(brandDto.getCommitment() != null) brand.get().setCommitment(brandDto.getCommitment());
 		if(brandDto.getProduction() != null) brand.get().setProduction(brandDto.getProduction());
 		if(brandDto.getCategories() != null) brand.get().setCategories(categoryService.getListCategoryEntity(brandDto.getCategories()));
