@@ -1,5 +1,7 @@
 package com.tfm.tfm.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,5 +77,18 @@ public class BrandController {
 		})
 	public BrandResponse get(@RequestParam String brand) {
 		return brandService.getBrand(brand);
+	}
+
+	@GetMapping("/brands")
+	@Operation(summary = "Get all brands")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<BrandResponse> getAll() {
+		return brandService.getAllBrands();
 	}
 }

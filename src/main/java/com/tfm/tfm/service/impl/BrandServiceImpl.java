@@ -88,7 +88,7 @@ public class BrandServiceImpl implements BrandService{
 		);
 	}
 
-	public	BrandResponse updateBrand(BrandDto brandDto){
+	public BrandResponse updateBrand(BrandDto brandDto){
 	
 		Optional<BrandEntity> brand = brandRepository.findByName(brandDto.getName());
 		if(brand.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand does not exist");
@@ -128,6 +128,18 @@ public class BrandServiceImpl implements BrandService{
 		if(brandEntity.isEmpty()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Brand does not exist");
 		
 		return getBrandResponse(brandEntity.get());
+	}
+
+	public List<BrandResponse> getAllBrands(){
+
+		List<BrandEntity> listEntity = brandRepository.findAll();
+		
+		if(listEntity == null) return null;
+
+		return listEntity
+						.stream()
+						.map(entity -> getBrandResponse(entity))
+						.collect(Collectors.toList()); 
 	}
 
 	public	List<BrandEntity> getBrandListIsVegan(boolean isVegan){

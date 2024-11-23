@@ -16,6 +16,8 @@ public interface BrandService {
 
 	BrandResponse getBrand(String brandName);
 
+	List<BrandResponse> getAllBrands();
+
 	BrandResponse getBrandResponse(BrandEntity brandEntity);
 	
 	List<BrandEntity> getBrandListIsVegan(boolean isVegan);
