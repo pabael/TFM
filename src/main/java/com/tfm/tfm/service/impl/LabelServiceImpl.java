@@ -14,7 +14,6 @@ import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LabelEntity;
 import com.tfm.tfm.repository.LabelRepository;
 import com.tfm.tfm.response.LabelResponse;
-import com.tfm.tfm.service.GeneralService;
 import com.tfm.tfm.service.LabelService;
 
 @Service
@@ -22,13 +21,12 @@ public class LabelServiceImpl implements LabelService{
 
 	@Autowired private LabelRepository labelRepository;
 
-	@Autowired private GeneralService generalService;
 
 	public LabelResponse createLabel(LabelDto labelDto) {
 		
 		if(labelRepository.findByName(labelDto.getName()).isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Label already exists");
 
-		LabelEntity labelEntity = new LabelEntity(generalService.capitalizeFirstLetter(labelDto.getName()));
+		LabelEntity labelEntity = new LabelEntity(labelDto.getName());
 		
 		labelRepository.save(labelEntity);
 		
