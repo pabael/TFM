@@ -80,7 +80,7 @@ public class BrandServiceImpl implements BrandService{
 				brandEntity.isVegan(),
 				brandEntity.getCommitment(),
 				brandEntity.getProduction(),
-				categoryService.getListCategoryResponse(brandEntity.getCategories()),
+				categoryService.getListCategoryResponse(brandEntity.getCategories(), brandEntity.getSubcategories()),
 				brandEntity.getLabels() == null ? null : brandEntity.getLabels().stream().map(LabelEntity::getName).collect(Collectors.toList()),
 				brandEntity.getConsumers() == null ? null : brandEntity.getConsumers().stream().map(ConsumerEntity::getType).collect(Collectors.toList()),
 				brandEntity.getPrice().getPriceRange(),
@@ -102,6 +102,7 @@ public class BrandServiceImpl implements BrandService{
 		if(brandDto.getCommitment() != null) brand.get().setCommitment(brandDto.getCommitment());
 		if(brandDto.getProduction() != null) brand.get().setProduction(brandDto.getProduction());
 		if(brandDto.getCategories() != null) brand.get().setCategories(categoryService.getListCategoryEntity(brandDto.getCategories()));
+		if(brandDto.getCategories() != null) brand.get().setSubcategories(subcategoryService.getListSubcategoryEntity(brandDto.getCategories()));
 
 		if(brandDto.getLabels() != null) brand.get().setLabels(labelService.getListLabelEntity(brandDto.getLabels()));
 		if(brandDto.getConsumers() != null) brand.get().setConsumers(consumerService.getListConsumerEntity(brandDto.getConsumers()));

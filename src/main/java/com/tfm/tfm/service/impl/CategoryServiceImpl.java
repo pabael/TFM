@@ -55,6 +55,15 @@ public class CategoryServiceImpl implements CategoryService{
 	
 		return new CategoryResponse(categoryEntity.getName(), subcategories);
 	}
+
+	private CategoryResponse getCategoryResponse(CategoryEntity categoryEntity, List<SubcategoryEntity> subcategoriesEntity) {
+
+		if(subcategoriesEntity == null) return new CategoryResponse(categoryEntity.getName());
+		
+		List<String> subcategories = subcategoriesEntity.stream().map(SubcategoryEntity::getName).collect(Collectors.toList());
+	
+		return new CategoryResponse(categoryEntity.getName(), subcategories);
+	}
 	
 	public CategoryEntity getCategoryEntity(String category) {
 		
@@ -82,18 +91,31 @@ public class CategoryServiceImpl implements CategoryService{
     .collect(Collectors.toList());
 	}
 
-	public List<CategoryResponse> getListCategoryResponse(List<CategoryEntity> categories) {
+	public List<CategoryResponse> getListCategoryResponse(List<CategoryEntity> categories, List<SubcategoryEntity> subcategories) {
 
 		if(categories == null) return null;
 
 		return categories.stream()
-			.map(category -> getCategoryResponse(category))
+			.map(category -> {
+				List<SubcategoryEntity> subactegoriesOfCategory = subcategories.stream().filter(subcategory -> subcategory.getCategory() == category).collect(Collectors.toList());
+				return getCategoryResponse(category, subactegoriesOfCategory);
+			})
 			.collect(Collectors.toList());
 	}
 
 	public List<CategoryResponse> getAllCategories(){
 
 		return getListCategoryResponse(categoryRepository.findAll());
+	}
+
+	
+	private List<CategoryResponse> getListCategoryResponse(List<CategoryEntity> categories) {
+
+		if(categories == null) return null;
+
+		return categories.stream()
+			.map(category -> getCategoryResponse(category))
+			.collect(Collectors.toList());
 	}
 
 	public void deleteCategory(String category){
