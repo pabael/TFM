@@ -8,6 +8,7 @@ import com.tfm.tfm.entity.AutonomousCommunityEntity;
 import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LocationEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
+import com.tfm.tfm.entity.SubcategoryEntity;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -32,14 +33,18 @@ public class BrandSpecifications {
 
     public static Specification<BrandEntity> hasSubcategory(String category, String subcategory) {
         return (root, query, criteriaBuilder) -> {
-            Join<Object, Object> categoryJoin = root.join("categories", JoinType.LEFT);
-                Predicate categoryPredicate = criteriaBuilder.equal(categoryJoin.get("name"), category);
-                
-                Join<Object, Object> subcategoryJoin = categoryJoin.join("subcategories", JoinType.LEFT);
-                Predicate subcategoryPredicate = criteriaBuilder.equal(subcategoryJoin.get("name"), subcategory);
-                
-                return criteriaBuilder.and(categoryPredicate, subcategoryPredicate);
-            };
+            if (subcategory == null || category == null) {
+                return criteriaBuilder.conjunction();
+            }
+
+            Join<BrandEntity, SubcategoryEntity> subcategoryJoin = root.join("subcategories", JoinType.INNER);
+            
+            Predicate subcategoryPredicate = criteriaBuilder.equal(subcategoryJoin.get("name"), subcategory);
+
+            Predicate categoryPredicate = criteriaBuilder.equal(subcategoryJoin.get("category").get("name"), category);
+
+            return criteriaBuilder.and(subcategoryPredicate, categoryPredicate);
+        };
     }
 
     public static Specification<BrandEntity> hasConsumer(String consumer) {

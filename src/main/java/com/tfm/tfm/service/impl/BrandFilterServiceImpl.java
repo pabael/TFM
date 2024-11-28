@@ -113,7 +113,7 @@ public class BrandFilterServiceImpl implements BrandFilterService{
 
     Specification<BrandEntity> spec = Specification.where(null);
 
-    if (category != null) {
+    if (category != null && subcategory == null) {
         spec = spec.and(BrandSpecifications.hasCategory(category));
     }
     if (category != null && subcategory != null) {
