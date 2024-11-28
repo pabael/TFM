@@ -26,4 +26,7 @@ public interface BrandFilterService {
 
 	List<BrandResponse> getBrandsByAutonomousCommunity(String autonomousCommunity);
 
+	List<BrandResponse> getFilteredBrands(String category, String subcategory, Boolean vegan, Boolean crueltyFree,
+                                               Integer price, String location, 
+                                               String autonomousCommunity, String province, List<String> labels, String consumer);
 }

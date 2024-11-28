@@ -19,6 +19,30 @@ import jakarta.validation.Valid;
 public class BrandFilterController {
 	@Autowired private BrandFilterService brandFilterService;
 
+@GetMapping("/brands/filter")
+@Operation(summary = "Get brands based on various filters")
+	
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "${api.response-codes.ok.desc}"),
+			@ApiResponse(responseCode = "400", description = "${api.response-codes.badRequest.desc}")
+	})
+	public List<BrandResponse> getFilteredBrands(
+    @RequestParam(required = false) String category,
+    @RequestParam(required = false) String subcategory,
+    @RequestParam(required = false) Boolean vegan,
+    @RequestParam(required = false) Boolean crueltyFree,
+    @RequestParam(required = false) Integer price,
+    @RequestParam(required = false) String location,
+    @RequestParam(required = false) String autonomousCommunity,
+    @RequestParam(required = false) String province,
+    @RequestParam(required = false) List<String> labels,
+    @RequestParam(required = false) String consumer
+) {
+    return brandFilterService.getFilteredBrands(
+        category, subcategory, vegan, crueltyFree, price, location, autonomousCommunity, province, labels, consumer
+    );
+}
+
 	@GetMapping("/brands/category")
 	@Operation(summary = "Get all brands from a category")
 
