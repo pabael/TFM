@@ -31,7 +31,7 @@ public class LocationController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public List<LocationResponse> getAll(@RequestParam String province) {
+	public List<LocationResponse> getAllOfPorvince(@RequestParam(required = true) String province) {
 		return locationService.getLocationList(province);
 	}
 
@@ -47,5 +47,18 @@ public class LocationController {
 		})
 	public LocationResponse create(@RequestBody @Valid LocationDto locationDto) {
 		return locationService.createLocation(locationDto);
+	}
+
+	@GetMapping("/locations/with-brands")
+	@Operation(summary = "Get all locations in data base")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<LocationResponse> getAllInDataBase() {
+		return locationService.getLocationsWithBrand();
 	}
 }

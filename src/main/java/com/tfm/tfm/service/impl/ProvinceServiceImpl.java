@@ -15,6 +15,7 @@ import com.tfm.tfm.entity.AutonomousCommunityEntity;
 import com.tfm.tfm.entity.BrandEntity;
 import com.tfm.tfm.entity.LocationEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
+import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.repository.ProvinceRepository;
 import com.tfm.tfm.response.ProvinceResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
@@ -24,6 +25,7 @@ import com.tfm.tfm.service.ProvinceService;
 public class ProvinceServiceImpl implements ProvinceService{
 
 	@Autowired private ProvinceRepository provinceRepository;
+	@Autowired private LocationRepository locationRepository;
 
 	@Autowired private AutonomousCommunityService autonomousCommunityService;
 
@@ -75,5 +77,11 @@ public class ProvinceServiceImpl implements ProvinceService{
 		if(brands == null) return null;
 
 		return brands.stream().collect(Collectors.toList());
+	}
+
+	public	List<ProvinceResponse> getProvincesWithBrand(){
+		return locationRepository.findAll().stream()
+		.map(location -> new ProvinceResponse(location.getProvince().getName()))
+		.collect(Collectors.toList());
 	}
 }

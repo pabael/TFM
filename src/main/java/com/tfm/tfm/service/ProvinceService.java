@@ -15,4 +15,5 @@ public interface ProvinceService {
 	List<BrandEntity> getBrandsByProvince(String province);
 	List<BrandEntity> getBrandsByProvince(ProvinceEntity provinceEntity);
 
+	List<ProvinceResponse> getProvincesWithBrand();
 }

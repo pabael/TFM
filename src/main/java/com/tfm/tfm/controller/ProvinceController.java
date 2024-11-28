@@ -27,7 +27,20 @@ public class ProvinceController {
 				@ApiResponse(responseCode = "400", 
 		            description = "${api.response-codes.badRequest.desc}")
 		})
-	public List<ProvinceResponse> getAll(@RequestParam String autonomousCommunity) {
+	public List<ProvinceResponse> getAll(@RequestParam(required = true) String autonomousCommunity) {
 		return provinceService.getProvinceList(autonomousCommunity);
+	}
+
+	@GetMapping("/provinces/with-brands")
+	@Operation(summary = "Get all provinces with brand")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<ProvinceResponse> getAllWithBrand() {
+		return provinceService.getProvincesWithBrand();
 	}
 }

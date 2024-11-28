@@ -88,7 +88,7 @@ public class LocationServiceImpl implements LocationService{
 
 		return locations
 			.stream()
-			.map(entity -> this.getLocationResponse(entity))
+			.map(entity -> getLocationResponse(entity))
 			.collect(Collectors.toList());
 	}
 
@@ -109,5 +109,10 @@ public class LocationServiceImpl implements LocationService{
 
 		return locationEntity.get().getBrands();
 	}
+
+	public	List<LocationResponse> getLocationsWithBrand(){
+		return getListLocationResponse(locationRepository.findAll());
+	}
+
 
 }

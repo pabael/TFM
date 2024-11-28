@@ -19,4 +19,5 @@ public interface LocationService {
 
 	List<BrandEntity> getBrandsByLocation(String location);
 
+	List<LocationResponse> getLocationsWithBrand();
 }
