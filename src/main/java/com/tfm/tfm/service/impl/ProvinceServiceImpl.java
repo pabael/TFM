@@ -82,6 +82,7 @@ public class ProvinceServiceImpl implements ProvinceService{
 	public	List<ProvinceResponse> getProvincesWithBrand(){
 		return locationRepository.findAll().stream()
 		.map(location -> new ProvinceResponse(location.getProvince().getName()))
+		.distinct()
 		.collect(Collectors.toList());
 	}
 }
