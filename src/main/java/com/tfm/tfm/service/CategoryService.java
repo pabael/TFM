@@ -13,6 +13,7 @@ public interface CategoryService {
 	CategoryResponse createCategory(CategoryDto categoryDto);
 	void deleteCategory(String category);
 	List<CategoryResponse> getAllCategories();
+	CategoryResponse getCategory(String category);
 
 	CategoryEntity getCategoryEntity(String category);
 

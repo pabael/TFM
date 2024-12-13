@@ -126,4 +126,13 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		categoryRepository.delete(categoryEntity.get());
 	}
+
+	public 	CategoryResponse getCategory(String category){
+
+		Optional<CategoryEntity> categoryEntity = categoryRepository.findByName(category);
+
+		if(categoryEntity == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist");
+
+		return getCategoryResponse(categoryEntity.get());
+	}
 }

@@ -63,4 +63,17 @@ public class CategoryController {
 	public List<CategoryResponse> getAll() {
 		return categoryService.getAllCategories();
 	}
+	
+	@GetMapping("/category")
+	@Operation(summary = "Get a category with its subcategories")
+
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", 
+				description = "${api.response-codes.ok.desc}"),
+			@ApiResponse(responseCode = "400", 
+	            description = "${api.response-codes.badRequest.desc}")
+	})
+	public CategoryResponse getCategory(@RequestParam String category) {
+		return categoryService.getCategory(category);
+	}
 }
