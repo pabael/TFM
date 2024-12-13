@@ -17,10 +17,16 @@ public class AppConfig implements WebMvcConfigurer{
 	@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") // Reemplazar
+                .allowedOrigins("http://localhost:4200", "https://tierralocal.netlify.app/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
+        
+        registry.addMapping("/**")
+		        .allowedOrigins("*")
+		        .allowedMethods("GET")
+		        .allowedHeaders("*")
+		        .allowCredentials(true);
     }
 	
 }
