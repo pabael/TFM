@@ -12,13 +12,16 @@ import org.springframework.web.server.ResponseStatusException;
 import com.tfm.tfm.entity.AutonomousCommunityEntity;
 import com.tfm.tfm.entity.ProvinceEntity;
 import com.tfm.tfm.repository.AutonomousCommunityRepository;
+import com.tfm.tfm.repository.LocationRepository;
 import com.tfm.tfm.response.AutonomousCommunityResponse;
+import com.tfm.tfm.response.ProvinceResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
 
 @Service
 public class AutonomousCommunityServiceImpl implements AutonomousCommunityService{
 
 	@Autowired private AutonomousCommunityRepository autonomousCommunityRepository;
+	@Autowired private LocationRepository locationRepository;
 
 	public List<AutonomousCommunityResponse> getAutonomousCommunityList(){
 		
@@ -52,6 +55,13 @@ public class AutonomousCommunityServiceImpl implements AutonomousCommunityServic
 		
 		return autonomousCommunityEntity.get().getProvinces();
 		
+	}
+
+	public List<AutonomousCommunityResponse> getAutonomousCommunitiesWithBrand(){
+		return locationRepository.findAll().stream()
+		.map(location -> new AutonomousCommunityResponse(location.getProvince().getAutonomousCommunity().getName()))
+		.distinct()
+		.collect(Collectors.toList());
 	}
 
 }

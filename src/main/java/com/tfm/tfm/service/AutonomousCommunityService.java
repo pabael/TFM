@@ -9,6 +9,8 @@ import com.tfm.tfm.response.AutonomousCommunityResponse;
 public interface AutonomousCommunityService {
 
 	List<AutonomousCommunityResponse> getAutonomousCommunityList();
+	
+	List<AutonomousCommunityResponse> getAutonomousCommunitiesWithBrand();
 
 	List<AutonomousCommunityEntity> getAutonomousCommunityEntityList ();
 

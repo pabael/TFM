@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfm.tfm.response.AutonomousCommunityResponse;
+import com.tfm.tfm.response.ProvinceResponse;
 import com.tfm.tfm.service.AutonomousCommunityService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,5 +30,18 @@ public class AutonomousCommunityController {
 		})
 	public List<AutonomousCommunityResponse> getAllAutonomousCommunity() {
 		return autonomousCommunityService.getAutonomousCommunityList();
+	}
+	
+	@GetMapping("/autonomousCommunities/with-brands")
+	@Operation(summary = "Get all autonomous Communities with brand")
+
+		@ApiResponses(value = { 
+				@ApiResponse(responseCode = "200", 
+					description = "${api.response-codes.ok.desc}"),
+				@ApiResponse(responseCode = "400", 
+		            description = "${api.response-codes.badRequest.desc}")
+		})
+	public List<AutonomousCommunityResponse> getAllWithBrand() {
+		return autonomousCommunityService.getAutonomousCommunitiesWithBrand();
 	}
 }
